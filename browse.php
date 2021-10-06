@@ -4,7 +4,7 @@ include __DIR__ . "/header.php";
 
 $ReturnableResult = null;
 $Sort = "SellPrice";
-        $SortName = "price_low_high";
+$SortName = "price_low_high";
 
 $AmountOfPages = 0;
 $queryBuildResult = "";
@@ -67,6 +67,16 @@ switch ($SortOnPage) {
         $Sort = "SellPrice";
         break;
     }
+    case "weight_high_low";
+    {
+        $Sort = "TypicalWeightPerUnit DESC";
+        break;
+    }
+    case "weight_low_high";
+    {
+        $Sort = "TypicalWeightPerUnit";
+        break;
+    }
     default:
     {
         $Sort = "SellPrice";
@@ -97,9 +107,9 @@ if ($SearchString != "") {
 
 $Offset = $PageNumber * $ProductsOnPage;
 
-if ($CategoryID != "") { 
+if ($CategoryID != "") {
     if ($queryBuildResult != "") {
-    $queryBuildResult .= " AND ";
+        $queryBuildResult .= " AND ";
     }
 }
 
@@ -146,7 +156,7 @@ if ($CategoryID == "") {
 // einde deel 2 van User story: Zoeken producten
 
 if ($CategoryID !== "") {
-$Query = "
+    $Query = "
            SELECT SI.StockItemID, SI.StockItemName, SI.MarketingComments, TaxRate, RecommendedRetailPrice,
            ROUND(SI.TaxRate * SI.RecommendedRetailPrice / 100 + SI.RecommendedRetailPrice,2) as SellPrice,
            QuantityOnHand,
@@ -183,16 +193,16 @@ if (isset($amount)) {
 }
 
 
-    function getVoorraadTekst($actueleVoorraad) {
-        if ($actueleVoorraad >= 1000) {
-            return "Ruime voorraad beschikbaar.";
-        } else {
-            return "Voorraad: $actueleVoorraad";
-        }
+function getVoorraadTekst($actueleVoorraad) {
+    if ($actueleVoorraad >= 1000) {
+        return "Ruime voorraad beschikbaar.";
+    } else {
+        return "Voorraad: $actueleVoorraad";
     }
-    function berekenVerkoopPrijs($adviesPrijs, $btw) {
-		return $btw * $adviesPrijs / 100 + $adviesPrijs;
-    }
+}
+function berekenVerkoopPrijs($adviesPrijs, $btw) {
+    return $btw * $adviesPrijs / 100 + $adviesPrijs;
+}
 ?>
 
 <!-- code deel 3 van User story: Zoeken producten : de html -->
@@ -241,6 +251,14 @@ if (isset($amount)) {
                     print "selected";
                 } ?>>Naam aflopend
                 </option>
+                <option value="weight_low_high" <?php if ($_SESSION['sort'] == "weight_low_high") {
+                    print "selected";
+                } ?>>Gewicht oplopend
+                </option>
+                <option value="weight_high_low" <?php if ($_SESSION['sort'] == "weight_high_low") {
+                    print "selected";
+                } ?>>Gewicht aflopend
+                </option>
             </select>
     </form>
 </div>
@@ -259,39 +277,39 @@ if (isset($amount)) {
 
 
             <!-- einde coderegel 1 van User story: bekijken producten   -->
-                <div id="ProductFrame">
-                    <?php
-                    if (isset($row['ImagePath'])) { ?>
-                        <div class="ImgFrame"
-                             style="background-image: url('<?php print "Public/StockItemIMG/" . $row['ImagePath']; ?>'); background-size: 230px; background-repeat: no-repeat; background-position: center;"></div>
-                    <?php } else if (isset($row['BackupImagePath'])) { ?>
-                        <div class="ImgFrame"
-                             style="background-image: url('<?php print "Public/StockGroupIMG/" . $row['BackupImagePath'] ?>'); background-size: cover;"></div>
-                    <?php }
-                    ?>
+            <div id="ProductFrame">
+                <?php
+                if (isset($row['ImagePath'])) { ?>
+                    <div class="ImgFrame"
+                         style="background-image: url('<?php print "Public/StockItemIMG/" . $row['ImagePath']; ?>'); background-size: 230px; background-repeat: no-repeat; background-position: center;"></div>
+                <?php } else if (isset($row['BackupImagePath'])) { ?>
+                    <div class="ImgFrame"
+                         style="background-image: url('<?php print "Public/StockGroupIMG/" . $row['BackupImagePath'] ?>'); background-size: cover;"></div>
+                <?php }
+                ?>
 
-                    <div id="StockItemFrameRight">
-                        <div class="CenterPriceLeftChild">
-                            <h1 class="StockItemPriceText"><?php print sprintf(" %0.2f", berekenVerkoopPrijs($row["RecommendedRetailPrice"], $row["TaxRate"])); ?></h1>
-                            <h6>Inclusief BTW </h6>
-                        </div>
+                <div id="StockItemFrameRight">
+                    <div class="CenterPriceLeftChild">
+                        <h1 class="StockItemPriceText"><?php print sprintf(" %0.2f", berekenVerkoopPrijs($row["RecommendedRetailPrice"], $row["TaxRate"])); ?></h1>
+                        <h6>Inclusief BTW </h6>
                     </div>
-                    <h1 class="StockItemID">Artikelnummer: <?php print $row["StockItemID"]; ?></h1>
-                    <p class="StockItemName"><?php print $row["StockItemName"]; ?></p>
-                    <p class="StockItemComments"><?php print $row["MarketingComments"]; ?></p>
-                    <h4 class="ItemQuantity"><?php print getVoorraadTekst($row["QuantityOnHand"]); ?></h4>
                 </div>
+                <h1 class="StockItemID">Artikelnummer: <?php print $row["StockItemID"]; ?></h1>
+                <p class="StockItemName"><?php print $row["StockItemName"]; ?></p>
+                <p class="StockItemComments"><?php print $row["MarketingComments"]; ?></p>
+                <h4 class="ItemQuantity"><?php print getVoorraadTekst($row["QuantityOnHand"]); ?></h4>
+            </div>
             <!--  coderegel 2 van User story: bekijken producten  -->
 
-<a class="ListItem" href='view.php?id=<?php print $row['StockItemID']; ?>'>
-</a>
+            <a class="ListItem" href='view.php?id=<?php print $row['StockItemID']; ?>'>
+            </a>
 
             <!--  einde coderegel 2 van User story: bekijken producten  -->
         <?php } ?>
 
         <form id="PageSelector">
-		
-<!-- code deel 4 van User story: Zoeken producten  -->
+
+            <!-- code deel 4 van User story: Zoeken producten  -->
 
             <input type="hidden" name="search_string" id="search_string"
                    value="<?php if (isset($_GET['search_string'])) {
@@ -299,7 +317,7 @@ if (isset($amount)) {
                    } ?>">
             <input type="hidden" name="sort" id="sort" value="<?php print ($_SESSION['sort']); ?>">
 
-<!-- einde code deel 4 van User story: Zoeken producten  -->
+            <!-- einde code deel 4 van User story: Zoeken producten  -->
             <input type="hidden" name="category_id" id="category_id" value="<?php if (isset($_GET['category_id'])) {
                 print ($_GET['category_id']);
             } ?>">

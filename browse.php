@@ -211,11 +211,11 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
 <div id="FilterFrame"><h2 class="FilterText"><i class="fas fa-filter"></i> Filteren </h2>
     <form>
         <div id="FilterOptions">
-            <h4 class="FilterTopMargin"><i class="fas fa-search"></i> Zoeken</h4>
+            <h6 class="FilterTopMargin"><i class="fas fa-search"></i> Zoeken</h6>
             <input type="text" name="search_string" id="search_string"
                    value="<?php print (isset($_GET['search_string'])) ? $_GET['search_string'] : ""; ?>"
                    class="form-submit">
-            <h4 class="FilterTopMargin"><i class="fas fa-list-ol"></i> Aantal producten op pagina</h4>
+            <h6 class="FilterTopMargin"><i class="fas fa-list-ol"></i> Aantal producten op pagina</h6>
 
             <input type="hidden" name="category_id" id="category_id"
                    value="<?php print (isset($_GET['category_id'])) ? $_GET['category_id'] : ""; ?>">
@@ -233,7 +233,7 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
                 } ?>>75
                 </option>
             </select>
-            <h4 class="FilterTopMargin"><i class="fas fa-sort"></i> Sorteren</h4>
+            <h6 class="FilterTopMargin"><i class="fas fa-sort"></i> Sorteren</h6>
             <select name="sort" id="sort" onchange="this.form.submit()">>
                 <option value="price_low_high" <?php if ($_SESSION['sort'] == "price_low_high") {
                     print "selected";

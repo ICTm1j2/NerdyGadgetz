@@ -273,7 +273,7 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
         foreach ($ReturnableResult as $row) {
             ?>
             <!--  coderegel 1 van User story: bekijken producten  -->
-
+            <a class="ListItem" href='view.php?id=<?php print $row['StockItemID']; ?>'>
 
 
             <!-- einde coderegel 1 van User story: bekijken producten   -->
@@ -301,7 +301,6 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
             </div>
             <!--  coderegel 2 van User story: bekijken producten  -->
 
-            <a class="ListItem" href='view.php?id=<?php print $row['StockItemID']; ?>'>
             </a>
 
             <!--  einde coderegel 2 van User story: bekijken producten  -->

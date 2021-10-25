@@ -201,7 +201,12 @@ function getVoorraadTekst($actueleVoorraad) {
     }
 }
 function berekenVerkoopPrijs($adviesPrijs, $btw) {
-    return $btw * $adviesPrijs / 100 + $adviesPrijs;
+    $verkoopPrijs = $btw * $adviesPrijs / 100 + $adviesPrijs;
+    if (($verkoopPrijs) < 0) {
+        return 0;
+    } else {
+        return $verkoopPrijs;
+    }
 }
 ?>
 

@@ -58,7 +58,7 @@ foreach($items as $item){
     <td></td><td></td><td></td><td></td>
     <td><?php
         if(!(count($items) < 1)){
-            print(sprintf("€ %.2f", $total));
+            print("<strong>" . sprintf("€ %.2f", $total) . "</strong>");
         }
         ?></td>
 

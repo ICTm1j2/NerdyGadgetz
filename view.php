@@ -94,12 +94,24 @@ if (isset($_GET["id"])) {
             <h2 class="StockItemNameViewSize StockItemName">
                 <?php print $StockItem['StockItemName']; ?>
             </h2>
-            <div class="QuantityText"><?php print $StockItem['QuantityOnHand']; ?></div>
+            <div class="QuantityText"><?php
+                if(!($StockItem['SellPrice'] < 0)){
+                    print $StockItem['QuantityOnHand'];
+                }
+                ?></div>
             <div id="StockItemHeaderLeft">
                 <div class="CenterPriceLeft">
                     <div class="CenterPriceLeftChild">
-                        <p class="StockItemPriceText"><b><?php print sprintf("€ %.2f", $StockItem['SellPrice']); ?></b></p>
-                        <h6> Inclusief BTW </h6>
+                        <p class="StockItemPriceText"><b><?php
+                                if($StockItem['SellPrice'] < 0){
+                                    print("Niet leverbaar");
+                                    print("</b></p>");
+                                }else{
+                                    print sprintf("€ %.2f", $StockItem['SellPrice']);
+                                    print("</b></p>");
+                                    print("<h6> Inclusief BTW </h6>");
+                                }
+                                ?>
                     </div>
                 </div>
             </div>
@@ -108,7 +120,7 @@ if (isset($_GET["id"])) {
         <!-- formulier via POST en niet GET om te zorgen dat refresh van pagina niet het artikel onbedoeld toevoegt-->
         <form method="post">
             <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-            <input type="submit" name="submit" value="Voeg toe aan winkelmandje">
+            <input type="submit" name="submit" value="Voeg toe aan winkelmandje" <?php if($StockItem['SellPrice'] < 0) {print("disabled");} ?>>
         </form>
         <?php
         if (isset($_POST["submit"])) {              // zelfafhandelend formulier

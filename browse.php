@@ -203,7 +203,7 @@ function getVoorraadTekst($actueleVoorraad) {
 function berekenVerkoopPrijs($adviesPrijs, $btw) {
     $verkoopPrijs = $btw * $adviesPrijs / 100 + $adviesPrijs;
     if (($verkoopPrijs) < 0) {
-        return 0;
+        return -1;
     } else {
         return $verkoopPrijs;
     }
@@ -293,14 +293,25 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
 
                 <div id="StockItemFrameRight">
                     <div class="CenterPriceLeftChild">
-                        <h1 class="StockItemPriceText"><?php print sprintf(" %0.2f", berekenVerkoopPrijs($row["RecommendedRetailPrice"], $row["TaxRate"])); ?></h1>
-                        <h6>Inclusief BTW </h6>
+                        <h1 class="StockItemPriceText"><?php
+                            $prijs1 = berekenVerkoopPrijs($row["RecommendedRetailPrice"], $row["TaxRate"]);
+                            if($prijs1 == -1){
+                                print("Niet leverbaar");
+                            }else{
+                                print sprintf(" %0.2f", $prijs1);
+                                print("</h1> <h6>Inclusief BTW </h6>");
+                            }
+                            ?>
                     </div>
                 </div>
                 <h1 class="StockItemID">Artikelnummer: <?php print $row["StockItemID"]; ?></h1>
                 <p class="StockItemName"><?php print $row["StockItemName"]; ?></p>
                 <p class="StockItemComments"><?php print $row["MarketingComments"]; ?></p>
-                <h4 class="ItemQuantity"><?php print getVoorraadTekst($row["QuantityOnHand"]); ?></h4>
+                <h4 class="ItemQuantity"><?php
+                    if(!($prijs1 == -1)){
+                        print getVoorraadTekst($row["QuantityOnHand"]);
+                    }
+                    ?></h4>
             </div>
             <!--  coderegel 2 van User story: bekijken producten  -->
             </a>

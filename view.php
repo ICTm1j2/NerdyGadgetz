@@ -116,7 +116,7 @@ if (isset($_GET["id"])) {
                                 <!-- formulier via POST en niet GET om te zorgen dat refresh van pagina niet het artikel onbedoeld toevoegt-->
                         <div class="winkelmand-knop"><form method="post">
                             <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-                                <input type="submit" class="btn btn-danger test123 text-light" name="submit" value="Voeg toe aan winkelmand" <?php if($StockItem['SellPrice'] < 0) {print("disabled");} ?>>
+                                <input type="submit" class="btn btn-danger winkelmand-toevoegen-knop text-light" name="submit" value="Voeg toe aan winkelmand" <?php if($StockItem['SellPrice'] < 0) {print("disabled");} ?>>
                             </form></div>
                     </div>
                 </div>

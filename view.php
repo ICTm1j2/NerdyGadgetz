@@ -112,21 +112,21 @@ if (isset($_GET["id"])) {
                                     print("<h6> Inclusief BTW </h6>");
                                 }
                                 ?>
+
+                                <!-- formulier via POST en niet GET om te zorgen dat refresh van pagina niet het artikel onbedoeld toevoegt-->
+                        <div class="winkelmand-knop"><form method="post">
+                            <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
+                                <input type="submit" class="btn btn-danger test123 text-light" name="submit" value="Voeg toe aan winkelmand" <?php if($StockItem['SellPrice'] < 0) {print("disabled");} ?>>
+                            </form></div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- formulier via POST en niet GET om te zorgen dat refresh van pagina niet het artikel onbedoeld toevoegt-->
-        <form method="post">
-            <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-            <input type="submit" name="submit" value="Voeg toe aan winkelmandje" <?php if($StockItem['SellPrice'] < 0) {print("disabled");} ?>>
-        </form>
         <?php
         if (isset($_POST["submit"])) {              // zelfafhandelend formulier
             $stockItemID = $_POST["stockItemID"];
             addProductToCart($stockItemID);         // maak gebruik van geïmporteerde functie uit cartfuncties.php
-            print("Product toegevoegd aan <a href='cart.php'> winkelmandje!</a>");
+            print("<div class='alert alert-info'>Product toegevoegd aan je <a href='cart.php'> winkelmand</a>.</div>");
         }
         ?>
 

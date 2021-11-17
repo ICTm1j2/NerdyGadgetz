@@ -478,3 +478,13 @@ ul#ul-class-price li {
     border: 1px #5e00ff solid;
     color: #000000;
 }
+
+.winkelmand-knop {
+    position: absolute;
+    padding-top: 60px;
+}
+
+.test123 {
+    background-color: #676EFF !important;
+    border-color: #676EFF !important;
+}

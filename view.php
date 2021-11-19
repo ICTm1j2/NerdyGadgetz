@@ -126,7 +126,7 @@ if (isset($_GET["id"])) {
         if (isset($_POST["submit"])) {              // zelfafhandelend formulier
             $stockItemID = $_POST["stockItemID"];
             addProductToCart($stockItemID);         // maak gebruik van geïmporteerde functie uit cartfuncties.php
-            print("<div class='alert alert-info'>Product toegevoegd aan je <a href='cart.php'> winkelmand</a>.</div>");
+            print("<div class='alert alert-info'>Je hebt <strong>" . $StockItem['StockItemName'] . "</strong> aan je <a href='cart.php'> winkelmand</a> toegevoegd.</div>");
         }
         ?>
 

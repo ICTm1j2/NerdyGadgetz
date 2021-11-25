@@ -26,8 +26,10 @@ foreach($cart as $id=>$amount){
 <h1 class="winkelmand-center">Winkelmand</h1>
 <div>
 <?php
+$leeg = false;
     if(count($items) < 1){
-        print("<div class='alert alert-danger'>Je hebt nog niks in je winkelmand.</div>");
+        $leeg = true;
+        print("<div class='container container-sm'><div class='alert alert-danger'>Je hebt nog niks in je winkelmand.</div></div>");
     }
 ?>
 
@@ -47,6 +49,8 @@ foreach($items as $item){
 
 ?>
     <div id="ResultsArea" class="container container-sm">
+        <div class="row">
+            <div class="col-8">
         <?php
         foreach ($items as $item){?>
             <a class="ListItem" href='view.php?id=<?php print($item['StockItemID']) ?>'>
@@ -87,13 +91,21 @@ foreach($items as $item){
         <?php
         }
         ?>
-    </div>
-    <?php
-    if(!(count($items) < 1)){
-        print("<strong>" . sprintf("€ %.2f", $total) . "</strong>");
-    }
-    ?>
-
+            </div>
+        <div class="col-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Totaal: <?php
+                        if(!(count($items) < 1)){
+                            print(sprintf("€ %.2f", $total));
+                        }
+                        ?></h5>
+                    <?php if($leeg) {print("<p class=\"card-text\">Er zit nog niks in je winkelmand.</p>");}?>
+                    <a href="#" class="btn btn-primary">Afrekenen</a>
+                </div>
+            </div>
+        </div>
+        </div></div>
 </div>
 <hr>
 <center><p><a href='index.php'>Terug naar start</a></p></center>

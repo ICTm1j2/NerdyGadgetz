@@ -101,7 +101,7 @@ foreach($items as $item){
                         }
                         ?></h5>
                     <?php if($leeg) {print("<p class=\"card-text\">Er zit nog niks in je winkelmand.</p>");}?>
-                    <a href="#" class="btn btn-primary">Afrekenen</a>
+                    <a href="#" class="btn btn-primary winkelmand-toevoegen-knop">Afrekenen</a>
                 </div>
             </div>
         </div>

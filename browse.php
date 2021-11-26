@@ -279,41 +279,41 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
             ?>
             <!--  coderegel 1 van User story: bekijken producten  -->
             <a class="ListItem" href='view.php?id=<?php print $row['StockItemID']; ?>'>
-            <!-- einde coderegel 1 van User story: bekijken producten   -->
-            <div id="ProductFrame">
-                <?php
-                if (isset($row['ImagePath'])) { ?>
-                    <div class="ImgFrame"
-                         style="background-image: url('<?php print "Public/StockItemIMG/" . $row['ImagePath']; ?>'); background-size: 230px; background-repeat: no-repeat; background-position: center;"></div>
-                <?php } else if (isset($row['BackupImagePath'])) { ?>
-                    <div class="ImgFrame"
-                         style="background-image: url('<?php print "Public/StockGroupIMG/" . $row['BackupImagePath'] ?>'); background-size: cover;"></div>
-                <?php }
-                ?>
+                <!-- einde coderegel 1 van User story: bekijken producten   -->
+                <div id="ProductFrame">
+                    <?php
+                    if (isset($row['ImagePath'])) { ?>
+                        <div class="ImgFrame"
+                             style="background-image: url('<?php print "Public/StockItemIMG/" . $row['ImagePath']; ?>'); background-size: 230px; background-repeat: no-repeat; background-position: center;"></div>
+                    <?php } else if (isset($row['BackupImagePath'])) { ?>
+                        <div class="ImgFrame"
+                             style="background-image: url('<?php print "Public/StockGroupIMG/" . $row['BackupImagePath'] ?>'); background-size: cover;"></div>
+                    <?php }
+                    ?>
 
-                <div id="StockItemFrameRight">
-                    <div class="CenterPriceLeftChild">
-                        <h1 class="StockItemPriceText"><?php
-                            $prijs1 = berekenVerkoopPrijs($row["RecommendedRetailPrice"], $row["TaxRate"]);
-                            if($prijs1 == -1){
-                                print("Niet leverbaar");
-                            }else{
-                                print sprintf(" %0.2f", $prijs1);
-                                print("</h1> <h6>Inclusief BTW </h6>");
-                            }
-                            ?>
+                    <div id="StockItemFrameRight">
+                        <div class="CenterPriceLeftChild">
+                            <h1 class="StockItemPriceText"><?php
+                                $prijs1 = berekenVerkoopPrijs($row["RecommendedRetailPrice"], $row["TaxRate"]);
+                                if($prijs1 == -1){
+                                    print("Niet leverbaar");
+                                }else{
+                                    print sprintf(" %0.2f", $prijs1);
+                                    print("</h1> <h6>Inclusief BTW </h6>");
+                                }
+                                ?>
+                        </div>
                     </div>
+                    <h1 class="StockItemID">Artikelnummer: <?php print $row["StockItemID"]; ?></h1>
+                    <p class="StockItemName"><?php print $row["StockItemName"]; ?></p>
+                    <p class="StockItemComments"><?php print $row["MarketingComments"]; ?></p>
+                    <h4 class="ItemQuantity"><?php
+                        if(!($prijs1 == -1)){
+                            print getVoorraadTekst($row["QuantityOnHand"]);
+                        }
+                        ?></h4>
                 </div>
-                <h1 class="StockItemID">Artikelnummer: <?php print $row["StockItemID"]; ?></h1>
-                <p class="StockItemName"><?php print $row["StockItemName"]; ?></p>
-                <p class="StockItemComments"><?php print $row["MarketingComments"]; ?></p>
-                <h4 class="ItemQuantity"><?php
-                    if(!($prijs1 == -1)){
-                        print getVoorraadTekst($row["QuantityOnHand"]);
-                    }
-                    ?></h4>
-            </div>
-            <!--  coderegel 2 van User story: bekijken producten  -->
+                <!--  coderegel 2 van User story: bekijken producten  -->
             </a>
             <!--  einde coderegel 2 van User story: bekijken producten  -->
         <?php } ?>

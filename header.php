@@ -55,6 +55,9 @@ $databaseConnection = connectToDatabase();
             <li>
                 <a href="cart.php" class="HrefDecoration"><i class="fas fa-shopping-cart search"></i> Winkelmandje</a>
             </li>
+            <li>
+                <a href="inloggen.php" class="HrefDecoration"><i class="fas fa-user search"></i> Inloggen</a>
+            </li>
         </ul>
 
 <!-- einde code voor US3 zoeken -->

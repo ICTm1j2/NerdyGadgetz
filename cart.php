@@ -2,6 +2,16 @@
 include __DIR__ . "/header.php";
 include "cartfuncties.php";
 
+$deleteMelding = 0;
+if(isset($_GET['action'])){
+    if($_GET['action'] == "delete" && isset($_GET['productid'])){
+        if(deleteProduct($_GET['productid'])){
+            $deleteMelding = "<div class='container container-sm'><div class='alert alert-danger'>Je hebt een product verwijderd uit je winkelmand.</div></div>";
+        }
+
+    }
+}
+
 $cart = getCart();
 $items = array();
 $amounts = array();
@@ -23,14 +33,19 @@ foreach($cart as $id=>$amount){
     <title>Winkelwagen</title>
 </head>
 <body>
+<br>
 <h1 class="winkelmand-center">Winkelmand</h1>
 <div>
 <?php
 $leeg = false;
-    if(count($items) < 1){
-        $leeg = true;
-        print("<div class='container container-sm'><div class='alert alert-danger'>Je hebt nog niks in je winkelmand.</div></div>");
+
+if($deleteMelding != 0){
+    print($deleteMelding);
+}else if(count($items) < 1){
+    $leeg = true;
+    print("<div class='container container-sm'><div class='alert alert-danger'>Je hebt nog niks in je winkelmand.</div></div>");
     }
+
 ?>
 
 <?php
@@ -53,8 +68,9 @@ foreach($items as $item){
             <div class="col-8">
         <?php
         foreach ($items as $item){?>
-            <a class="ListItem" href='view.php?id=<?php print($item['StockItemID']) ?>'>
+
                 <div id="ProductFrame">
+                    <a class="ListItem" href='view.php?id=<?php print($item['StockItemID']) ?>'>
                     <?php
                     if (isset($item['ImagePath11111'])) { ?>
                         <div class="ImgFrame"
@@ -69,7 +85,7 @@ foreach($items as $item){
                         <?php
                     }
                     ?>
-
+                    </a>
                     <div id="StockItemFrameRight">
                         <div class="CenterPriceLeftChild">
                             <h1 class="StockItemPriceText"><?php
@@ -84,10 +100,9 @@ foreach($items as $item){
                     </div>
                     <h1 class="StockItemID">Artikelnummer: <?php print($item['StockItemID']) ?></h1>
                     <p class="StockItemName"><?php print($item['StockItemName']) ?></p>
-                    <p class="StockItemComments">Comment</p>
+                    <p class="StockItemComments"><a role="button" class="btn btn-sm btn-danger text-light" href="cart.php?action=delete&productid=<?php print($item['StockItemID']); ?>">Verwijder</a></p>
                     <h4 class="ItemQuantity">Aantal: <?php print($amounts[$item['StockItemID']]); ?></h4>
                 </div>
-            </a>
         <?php
         }
         ?>

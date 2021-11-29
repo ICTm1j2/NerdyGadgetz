@@ -29,7 +29,7 @@ include __DIR__ . "/header.php";
         <label>Straatnaam : </label>
         <input type="text" placeholder="straatnaam" name="straatnaam" required>
         <label>Huisnummer : </label>
-        <input type="text" placeholder="huisnummer" name="huisnummer" required>
+        <input type="number" placeholder="huisnummer" name="huisnummer" required>
         <label>Postcode : </label>
         <input type="text" placeholder="postcode" name="postcode" required> <br><br>
         <label for="voorwaarde">Akkoord met <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">voorwaarden</a></label>

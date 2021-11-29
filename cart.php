@@ -12,6 +12,12 @@ if(isset($_GET['action'])){
     }
 }
 
+if(isset($_POST['updateQuantity']) && isset($_POST['updateQuantityProductId'])){
+    if(updateProduct($_POST['updateQuantityProductId'], $_POST['updateQuantity'])){
+        $deleteMelding = "<div class='container container-sm'><div class='alert alert-info'>Het aantal is bijgewerkt.</div></div>";
+    }
+}
+
 $cart = getCart();
 $items = array();
 $amounts = array();
@@ -101,7 +107,10 @@ foreach($items as $item){
                     <h1 class="StockItemID">Artikelnummer: <?php print($item['StockItemID']) ?></h1>
                     <p class="StockItemName"><?php print($item['StockItemName']) ?></p>
                     <p class="StockItemComments"><a role="button" class="btn btn-sm btn-danger text-light" href="cart.php?action=delete&productid=<?php print($item['StockItemID']); ?>">Verwijder</a></p>
-                    <h4 class="ItemQuantity">Aantal: <?php print($amounts[$item['StockItemID']]); ?></h4>
+                    <form method="post">
+                        <input type="hidden" name="updateQuantityProductId" value="<?php print($item['StockItemID']) ?>">
+                    <h4 class="ItemQuantity">Aantal: <input type="number" name="updateQuantity" class="form-control form-control-sm" value="<?php print($amounts[$item['StockItemID']]); ?>" min="1"></h4>
+                    </form>
                 </div>
         <?php
         }
@@ -116,6 +125,7 @@ foreach($items as $item){
                         }
                         ?></h5>
                     <?php if($leeg) {print("<p class=\"card-text\">Er zit nog niks in je winkelmand.</p>");}?>
+                    <p id="text-test"></p>
                     <a href="#" class="btn btn-primary winkelmand-toevoegen-knop">Afrekenen</a>
                 </div>
             </div>

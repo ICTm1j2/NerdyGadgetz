@@ -37,3 +37,14 @@ function deleteProduct($stockItemID){
         return false;
     }
 }
+
+function updateProduct($stockItemID, $quantity){
+    $cart = getCart();
+    if(array_key_exists($stockItemID, $cart)){
+        $cart[$stockItemID] = $quantity;
+        $_SESSION['cart'] = $cart;
+        return true;
+    }else{
+        return false;
+    }
+}

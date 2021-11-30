@@ -39,12 +39,17 @@ function deleteProduct($stockItemID){
 }
 
 function updateProduct($stockItemID, $quantity){
+    if(($quantity == null) || $quantity == 0) {
+        deleteProduct($stockItemID);
+        return 2;
+    }
+
     $cart = getCart();
     if(array_key_exists($stockItemID, $cart)){
         $cart[$stockItemID] = $quantity;
         $_SESSION['cart'] = $cart;
-        return true;
+        return 1;
     }else{
-        return false;
+        return 0;
     }
 }

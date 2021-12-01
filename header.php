@@ -1,7 +1,8 @@
 <!-- de inhoud van dit bestand wordt bovenaan elke pagina geplaatst -->
 <?php
-//session_start();
+session_start();
 include "database.php";
+include "accountfuncties.php";
 $databaseConnection = connectToDatabase();
 ?>
 <!DOCTYPE html>
@@ -55,9 +56,20 @@ $databaseConnection = connectToDatabase();
             <li>
                 <a href="cart.php" class="HrefDecoration"><i class="fas fa-shopping-cart search"></i> Winkelmandje</a>
             </li>
+            <?php
+            if(isset($_SESSION['login'])){
+                $gebruikersnaam = getGebruikersnaam($databaseConnection, $_SESSION['login']);
+                ?>
+                <li>
+                    <a href="inloggen.php" class="HrefDecoration"><i class="fas fa-user search"></i> <?php print($gebruikersnaam); ?></a>
+                </li>
+            <?php
+            }else{
+            ?>
             <li>
                 <a href="inloggen.php" class="HrefDecoration"><i class="fas fa-user search"></i> Inloggen</a>
             </li>
+        <?php } ?>
         </ul>
 
 <!-- einde code voor US3 zoeken -->

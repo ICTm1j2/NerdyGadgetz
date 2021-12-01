@@ -1,6 +1,5 @@
 <?php
 include __DIR__ . "/header.php";
-include __DIR__ . "/accountfuncties.php";
 
 $melding = 0;
 
@@ -9,7 +8,7 @@ if(isset($_POST['firstname']) && isset($_POST['tos-agree'])){
     $lastName = trim($_POST['lastname']);
     $userName = trim($_POST['username']);
     $email = trim($_POST['email']);
-    $password = sha1(trim($_POST['password']));
+    $password = sha1(trim($_POST['password']) . "NERDY");
     $streetName = trim($_POST['streetname']);
     $houseNumber = trim($_POST['housenumber']);
     $state = trim($_POST['state']);
@@ -28,7 +27,7 @@ if(isset($_POST['firstname']) && isset($_POST['tos-agree'])){
     if($melding == 2){
         print("<div class='alert alert-danger'>Er gaat iets mis!</div>");
     }else if ($melding == 1){
-        print("<div class='alert alert-success'>Je account is gemaakt, je kunt nu inloggen.</div>");
+        print("<div class='alert alert-success'>Je account is gemaakt, je kunt nu <a href='inloggen.php'>inloggen</a>.</div>");
     }
     ?>
     <form class="row g-3" method="post" novalidate>

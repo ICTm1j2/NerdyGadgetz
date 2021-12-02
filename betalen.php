@@ -17,9 +17,8 @@ $postcode = $_POST['zip'];
 
 if(isset($_POST['betaal'])){
     print("<br><div class='container container-sm'><div class='alert alert-success'>Bedankt voor je bestelling! We gaan zo snel mogelijk aan de slag!</div></div>");
+    //
 }
-
-
 ?>
 
     <div class="container container-sm">
@@ -42,4 +41,5 @@ if(isset($_POST['betaal'])){
 
 <?php
 include __DIR__ . "/footer.php";
+
 ?>

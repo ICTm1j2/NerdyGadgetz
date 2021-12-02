@@ -30,7 +30,6 @@ foreach($cart as $id=>$amount){
     $StockItemImage = getStockItemImage($id, $databaseConnection);
     $StockItem['ImagePath'] = $StockItemImage;
     array_push($items, $StockItem);
-//    array_push($amounts, $id[$amount]);
     $amounts[$id] = $amount;
 }
 
@@ -60,14 +59,6 @@ if($deleteMelding != 0){
 <?php
 $total = 0;
 foreach($items as $item){
-//    print("<tr>");
-//    print("<td>" . $item['StockItemID'] . "</td>");
-//    print("<td><a href='view.php?id=" . $item['StockItemID'] . "'>" . $item['StockItemName'] . "</a></td>");
-//    print("<td>" . sprintf("€ %.2f", $item['SellPrice']). "</td>");
-//    print("<td>" . $amounts[$item['StockItemID']] . "</td>");
-//    print("<td>" . sprintf("€ %.2f",$item['SellPrice'] * $amounts[$item['StockItemID']]) . "</td>");
-//    print("</tr>");
-
     $total = $total + $item['SellPrice'] * $amounts[$item['StockItemID']];
 }
 
@@ -77,7 +68,6 @@ foreach($items as $item){
             <div class="col-8">
         <?php
         foreach ($items as $item){?>
-
                 <div id="ProductFrame">
                     <a class="ListItem" href='view.php?id=<?php print($item['StockItemID']) ?>'>
                     <?php

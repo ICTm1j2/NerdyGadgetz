@@ -10,7 +10,7 @@ $StockItemImage = getStockItemImage($_GET['id'], $databaseConnection);
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Artikelpagina (geef ?id=.. mee)</title>
+    <title>Artikelpagina</title>
 </head>
 <body>
 

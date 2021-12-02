@@ -56,10 +56,6 @@ if(isset($_POST['username']) && isset($_POST['password'])){
             <label for="inputPassword1" class="form-label">Wachtwoord</label>
             <input name="password" type="password" class="form-control" id="inputPassword1" placeholder="Wachtwoord" value="<?php print(printPassword()); ?>">
         </div>
-        <!--<div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>-->
         <button type="submit" class="btn btn-success">Inloggen</button>
         <a href="maakaccount.php">Nog geen account? Maak er een!</a><br>
         <a href="index.php">Terug naar de winkel</a>

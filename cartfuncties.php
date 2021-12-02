@@ -30,7 +30,7 @@ function deleteProduct($stockItemID){
 
     if(array_key_exists($stockItemID, $cart)){
         unset($cart[$stockItemID]);
-        $_SESSION['cart'] = $cart;
+        saveCart($cart);
         return true;
     }else{
         return false;
@@ -46,7 +46,7 @@ function updateProduct($stockItemID, $quantity){
     $cart = getCart();
     if(array_key_exists($stockItemID, $cart)){
         $cart[$stockItemID] = $quantity;
-        $_SESSION['cart'] = $cart;
+        saveCart($cart);
         return 1;
     }else{
         return 0;

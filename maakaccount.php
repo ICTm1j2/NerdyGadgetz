@@ -66,17 +66,17 @@ if(isset($_POST['firstname']) && isset($_POST['tos-agree'])){
             <label for="inputState" class="form-label">Provincie</label>
             <select name="state" class="form-select" id="inputState" required>
                 <option value="" selected disabled>Kies een provincie</option>
-                <option value="NOORD_HOLLAND">Noord-Holland</option>
-                <option value="ZUID_HOLLAND">Zuid-Holland</option>
-                <option value="ZEELAND">Zeeland</option>
-                <option value="UTRECHT">Utrecht</option>
-                <option value="GRONINGEN">Groningen</option>
-                <option value="FRIESLAND">Friesland</option>
-                <option value="NOORD_BRABANT">Noord-Brabant</option>
-                <option value="OVERIJSSEL">Overijssel</option>
-                <option value="GELDERLAND">Gelderland</option>
-                <option value="LIMBURG">Limburg</option>
-                <option value="FLEVOLAND">Flevoland</option>
+                <option value="Noord-Holland">Noord-Holland</option>
+                <option value="Zuid-Holland">Zuid-Holland</option>
+                <option value="Zeeland">Zeeland</option>
+                <option value="Utrecht">Utrecht</option>
+                <option value="Groningen">Groningen</option>
+                <option value="Friesland">Friesland</option>
+                <option value="Noord-Brabant">Noord-Brabant</option>
+                <option value="Overijssel">Overijssel</option>
+                <option value="Gelderland">Gelderland</option>
+                <option value="Limburg">Limburg</option>
+                <option value="Flevoland">Flevoland</option>
             </select>
         </div>
         <div class="col-md-4">
@@ -100,11 +100,6 @@ if(isset($_POST['firstname']) && isset($_POST['tos-agree'])){
         </div>
     </form>
 </div>
-
-</body>
-
-</html>
-
 
 <?php
 include __DIR__ . "/footer.php";

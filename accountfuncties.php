@@ -26,3 +26,15 @@ function getGebruikersnaam($connection, $klantId){
         return null;
     }
 }
+
+function getGegevens($connection, $klantId) {
+    $statement = mysqli_prepare($connection, "SELECT voornaam, achternaam, email, straatnaam, huisnummer, provincie, woonplaats, postcode FROM Klanten WHERE klantid = ? LIMIT 0,1");
+    mysqli_stmt_bind_param($statement, 'i', $klantId);
+    mysqli_stmt_execute($statement);
+    $result =  mysqli_stmt_get_result($statement);
+    if($result->num_rows == 1){
+        return $result->fetch_row();
+    }else{
+        return null;
+    }
+}

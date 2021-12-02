@@ -4,7 +4,7 @@ $success = 0;
 $melding = 0;
 
 if(isset($_GET['logout'])){
-    session_destroy();
+    unset($_SESSION['login']);
     die("<div class='alert alert-info'>Je bent nu uitgelogd. Klik <a href='index.php'>hier</a> om terug te gaan.</div>");
 }
 

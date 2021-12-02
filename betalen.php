@@ -16,6 +16,7 @@ $woonplaats = $_POST['city'];
 $postcode = $_POST['zip'];
 
 if(isset($_POST['betaal'])){
+    unset($_SESSION['cart']);
     print("<br><div class='container container-sm'><div class='alert alert-success'>Bedankt voor je bestelling! We gaan zo snel mogelijk aan de slag!</div></div>");
     //
 }

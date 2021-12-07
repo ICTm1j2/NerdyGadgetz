@@ -91,15 +91,21 @@ foreach($items as $item){
                                 if($item['SellPrice'] == -1){
                                     print("Niet leverbaar");
                                 }else{
-                                    print sprintf(" %0.2f", $item['SellPrice']);
-                                    print("</h1> <h6>Per stuk (incl. BTW) </h6>");
+                                    print sprintf(" %0.2f", $item['SellPrice'] * $amounts[$item['StockItemID']]);
+                                    print("</h1> <h6>Subtotaal (incl. BTW) </h6>");
                                 }
                                 ?>
                         </div>
                     </div>
                     <h1 class="StockItemID">Artikelnummer: <?php print($item['StockItemID']) ?></h1>
                     <p class="StockItemName"><?php print($item['StockItemName']) ?></p>
-                    <p class="StockItemComments"><a role="button" class="btn btn-sm btn-danger text-light" href="cart.php?action=delete&productid=<?php print($item['StockItemID']); ?>">Verwijder</a></p>
+                    <p class="StockItemComments"><h6>€
+                        <?php
+                        print sprintf(" %0.2f", $item['SellPrice']);
+                        print(" Per stuk (incl. BTW)");
+                        ?></h6><br>
+                        <a role="button" class="btn btn-sm btn-danger text-light" href="cart.php?action=delete&productid=<?php print($item['StockItemID']); ?>">Verwijder</a>
+                    </p>
                     <form method="post">
                         <input type="hidden" name="updateQuantityProductId" value="<?php print($item['StockItemID']) ?>">
                     <h4 class="ItemQuantity">Aantal: <input type="number" name="updateQuantity" class="form-control form-control-sm" value="<?php print($amounts[$item['StockItemID']]); ?>" min="0"></h4>

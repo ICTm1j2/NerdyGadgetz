@@ -46,7 +46,6 @@ foreach($cart as $id=>$amount){
     <div>
         <?php
         $leeg = false;
-        $teVeelBesteld = false;
 
         if($deleteMelding != 0){
             print($deleteMelding);
@@ -87,20 +86,6 @@ foreach($cart as $id=>$amount){
                                 }
                                 ?>
                             </a>
-                            <h1 class="StockItemID">Artikelnummer: <?php print($item['StockItemID']) ?></h1>
-                            <p class="StockItemName"><?php print($item['StockItemName']) ?></p>
-                            <p class="StockItemComments"><h6>€
-                                <?php
-                                print sprintf(" %0.2f", $item['SellPrice']);
-                                print(" Per stuk (incl. BTW)");
-                                ?></h6>
-                            <a role="button" class="btn btn-sm btn-danger text-light" href="cart.php?action=delete&productid=<?php print($item['StockItemID']); ?>">Verwijder</a>
-                            <h4> <?php if(filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT) < ($amounts[$item['StockItemID']])){
-                                ?></h4><p><?php $amounts[$item['StockItemID']] = filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT);print ("Sorry er zijn niet meer dan " . filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT) . " leverbaar."); $teVeelBesteld = true;?></p> <?php } ?>
-                            <form method="post">
-                                <input type="hidden" name="updateQuantityProductId" value="<?php print($item['StockItemID']) ?>">
-                                <h4 class="ItemQuantity">Aantal: <input type="number" name="updateQuantity" class="form-control form-control-sm" value="<?php print($amounts[$item['StockItemID']]); ?>" min="0"></h4>
-                            </form>
                             <div id="StockItemFrameRight">
                                 <div class="CenterPriceLeftChild">
                                     <h1 class="StockItemPriceText"><?php
@@ -113,31 +98,42 @@ foreach($cart as $id=>$amount){
                                         ?>
                                 </div>
                             </div>
+                            <h1 class="StockItemID">Artikelnummer: <?php print($item['StockItemID']) ?></h1>
+                            <p class="StockItemName"><?php print($item['StockItemName']) ?></p>
+                            <p class="StockItemComments"><h6>€
+                                <?php
+                                print sprintf(" %0.2f", $item['SellPrice']);
+                                print(" Per stuk (incl. BTW)");
+                                ?></h6><br>
+                            <a role="button" class="btn btn-sm btn-danger text-light" href="cart.php?action=delete&productid=<?php print($item['StockItemID']); ?>">Verwijder</a>
+                            </p>
+                            <form method="post">
+                                <input type="hidden" name="updateQuantityProductId" value="<?php print($item['StockItemID']) ?>">
+                                <h4 class="ItemQuantity">Aantal: <input type="number" name="updateQuantity" class="form-control form-control-sm" value="<?php print($amounts[$item['StockItemID']]); ?>" min="1"></h4>
+                            </form>
                         </div>
                         <?php
                     }
                     ?>
                 </div>
-                <?php if($leeg == false){ ?>
-                    <div class="col-4">
-                        <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Totaal: <?php
-                                    if(!(count($items) < 1)){
-                                        print(sprintf("€ %.2f", $total));
-                                    }
-                                    ?></h5>
-                                <?php if($leeg) {print("<p class=\"card-text\">Er zit nog niks in je winkelmand.</p>");}?>
-                                <p id="text-test"></p>
-                                <a href="afrekeninfo.php" class="btn btn-primary winkelmand-toevoegen-knop">Afrekenen</a>
-                            </div>
+                <div class="col-4">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Totaal: <?php
+                                if(!(count($items) < 1)){
+                                    print(sprintf("€ %.2f", $total));
+                                }
+                                ?></h5>
+                            <?php if($leeg) {print("<p class=\"card-text\">Er zit nog niks in je winkelmand.</p>");}?>
+                            <p id="text-test"></p>
+                            <a href="afrekenen.php" class="btn btn-primary winkelmand-toevoegen-knop">Afrekenen</a>
                         </div>
                     </div>
-                <?php } ?>
+                </div>
             </div></div>
     </div>
     <hr>
-    <center><p><a href='index.php'>Terug naar start</a></p></center>
+    <center><p><a href='index.php'>Verder winkelen</a></p></center>
     </body>
     </html>
 <?php

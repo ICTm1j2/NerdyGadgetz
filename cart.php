@@ -42,7 +42,7 @@ foreach($cart as $id=>$amount){
     </head>
     <body>
     <br>
-    <h1 class="winkelmand-center">Winkelmand1</h1>
+    <h1 class="winkelmand-center">Winkelmand</h1>
     <div>
         <?php
         $leeg = false;

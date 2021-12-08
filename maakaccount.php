@@ -3,7 +3,7 @@ include __DIR__ . "/header.php";
 
 $melding = 0;
 
-if(isset($_POST['firstname']) && isset($_POST['tos-agree'])){
+if(isset($_POST['firstname'] )){
     $firstName = trim($_POST['firstname']);
     $lastName = trim($_POST['lastname']);
     $userName = trim($_POST['username']);
@@ -14,7 +14,6 @@ if(isset($_POST['firstname']) && isset($_POST['tos-agree'])){
     $state = trim($_POST['state']);
     $city = trim($_POST['city']);
     $zipCode = trim($_POST['zip']);
-    $tosAgree = trim($_POST['tos-agree']);
     if(createAccount($databaseConnection, $firstName, $lastName, $userName, $email, $password, $streetName, $houseNumber, $state, $city, $zipCode)){
         $melding = 1;
     }else $melding = 2;

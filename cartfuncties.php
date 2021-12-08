@@ -39,8 +39,7 @@ function deleteProduct($stockItemID){
 
 function updateProduct($stockItemID, $quantity){
     if(($quantity == null) || $quantity == 0) {
-        deleteProduct($stockItemID);
-        return 2;
+        return $stockItemID;
     }
 
     $cart = getCart();

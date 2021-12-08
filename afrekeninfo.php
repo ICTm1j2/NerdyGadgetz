@@ -12,31 +12,30 @@ include __DIR__ . "/header.php";
 <body>
 
 <form>
-    <div class="container">
-        <h1> Afrekenen </h1> <br>
-        <label>Voornaam : </label>
-        <input type="text" placeholder="voornaam" name="voornaam" required>
-        <label>Achternaam : </label>
-        <input type="text" placeholder="achternaam" name="achternaam" required>
-        <label>E-mail : </label>
-        <input type="email" placeholder="E-mail" name="email" required> <br><br>
-
-        <h2> Verzend gegevens</h2>
-        <label>Provincie : </label>
-        <input type="text" placeholder="provincie" name="provincie" required>
-        <label>Woonplaats : </label>
-        <input type="text" placeholder="woonplaats" name="woonplaats" required>
-        <label>Straatnaam : </label>
-        <input type="text" placeholder="straatnaam" name="straatnaam" required>
-        <label>Huisnummer : </label>
-        <input type="number" placeholder="huisnummer" name="huisnummer" required>
-        <label>Postcode : </label>
-        <input type="text" placeholder="postcode" name="postcode" required> <br><br>
-        <label for="voorwaarde">Akkoord met <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">voorwaarden</a></label>
-        <input type="checkbox" id="voorwaarde" name="voorwaarde" required> <br><br>
-        <button type="submit">Betalen</button> <br>
+    <div class="container"><br>
+        <h1> Afrekenen </h1>
+        <h2>Verzendgegevens</h2>
+        <label>Voornaam: </label>
+        <input type="text" placeholder="Voornaam" name="voornaam" required>
+        <label></br>Achternaam: </label><br>
+        <input type="text" placeholder="Achternaam" name="achternaam" required>
+        <br><label></br>E-mailadres: </label>
+        <input type="email" placeholder="E-mailadres" name="email" required>
+        <label></br>Provincie: </label>
+        <input type="text" placeholder="Provincie" name="provincie" required>
+        <label></br>Woonplaats: </label>
+        <input type="text" placeholder="Woonplaats" name="woonplaats" required>
+        <label></br>Straatnaam: </label>
+        <input type="text" placeholder="Straatnaam" name="straatnaam" required>
+        <label></br>Huisnummer: </label>
+        <input type="number" placeholder="Huisnummer" name="huisnummer" required>
+        <label></bR>Postcode: </label>
+        <input type="text" placeholder="Postcode" name="postcode" required> <br><br>
+        <label for="voorwaarde">Bij het bestellen ga je akkoord met onze <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Algemene Voorwaarden</a>.</label><br>
+<!--        <input type="checkbox" id="voorwaarde" name="voorwaarde" required> <br><br>-->
+        <button type="submit">Betalen</button> <br><br>
         <a href="cart.php"> Terug naar winkelwagen </a> <br>
-        <a href="index.php"> Terug naar de winkel </a>
+        <a href="index.php"> Verder winkelen <br><br><br></a>
 
 </body>
 

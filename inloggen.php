@@ -57,7 +57,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
             <input name="password" type="password" class="form-control" id="inputPassword1" placeholder="Wachtwoord" value="<?php print(printPassword()); ?>">
         </div>
         <button type="submit" class="btn btn-success">Inloggen</button>
-        <a href="maakaccount.php">Nog geen account? Maak er een!</a><br>
+        <a href="maakaccount.php"><br><br>Nog geen account? Maak er een aan!</a><br>
         <a href="index.php">Terug naar de winkel</a>
     </form>
 </div>

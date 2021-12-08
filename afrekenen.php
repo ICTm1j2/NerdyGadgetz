@@ -28,6 +28,7 @@ if(isset($_SESSION['login'])){
     <?php
     }else {
     ?>
+    <br>
     <h1>Gegevens Invullen</h1>
     <?php } ?>
     <form class="row g-3" method="post" action="betalen.php" novalidate>
@@ -40,8 +41,9 @@ if(isset($_SESSION['login'])){
             <input name="lastname" type="text" class="form-control" id="inputLastname" placeholder="Achternaam" value="<?php print($achternaam); ?>" required>
         </div>
         <div class="col-md-4">
-            <label for="inputEmail" class="form-label">Email-adres</label>
-            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email-adres" value="<?php print($email); ?>" required>
+            <label for="inputEmail" class="form-label">E-mailadres</label>
+            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="E-mailadres" value="<?php print($email); ?>" required>
+            <br>
         </div>
         <div class="col-md-6">
             <label for="inputStreet" class="form-label">Straat</label>
@@ -70,18 +72,20 @@ if(isset($_SESSION['login'])){
             </select>
         </div>
         <div class="col-md-4">
+            <br>
             <label for="inputCity" class="form-label">Woonplaats</label>
             <input name="city" type="text" class="form-control" id="inputCity" placeholder="Woonplaats" value="<?php print($woonplaats); ?>" required>
         </div>
         <div class="col-md-4">
+            <br>
             <label for="inputZip" class="form-label">Postcode</label>
             <input name="zip" type="text" class="form-control" id="inputZip" placeholder="1111AA" value="<?php print($postcode); ?>" required>
         </div>
         <div class="col-md-4">
             <div class="form-check">
-                <input name="tos-agree" class="form-check-input" type="checkbox" value="true" id="invalidCheck" <?php if(isset($_SESSION['login'])) print("checked"); ?> required>
                 <label class="form-check-label" for="invalidCheck">
-                    Je moet akkoord gaan met onze <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Terms of Service</a>
+                    <br>
+                    <br>Bij het aanmaken van een account ga je akkoord met onze <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Algemene Voorwaarden</a>
                 </label>
             </div>
         </div>

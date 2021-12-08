@@ -22,7 +22,8 @@ if(isset($_POST['firstname']) && isset($_POST['tos-agree'])){
 ?>
 
 <div class="container container-sm">
-    <h1>Account Maken</h1>
+    <br>
+    <h1>Aanmaken Account</h1>
     <?php
     if($melding == 2){
         print("<div class='alert alert-danger'>Er gaat iets mis!</div>");
@@ -45,14 +46,16 @@ if(isset($_POST['firstname']) && isset($_POST['tos-agree'])){
                 <span class="input-group-text" id="inputGroupPrepend">@</span>
                 <input name="username" type="text" class="form-control" id="inputUsername" aria-describedby="inputGroupPrepend" placeholder="Gebruikersnaam" required>
             </div>
+            <br>
         </div>
         <div class="col-md-4">
-            <label for="inputEmail" class="form-label">Email-adres</label>
-            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email-adres" required>
+            <label for="inputEmail" class="form-label">E-mailadres</label>
+            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="E-mailadres" required>
         </div>
         <div class="col-md-8">
             <label for="inputPassword" class="form-label">Wachtwoord</label>
             <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Kies een wachtwoord tussen 6-100 tekens" required>
+        <br>
         </div>
         <div class="col-md-6">
             <label for="inputStreet" class="form-label">Straat</label>
@@ -78,20 +81,23 @@ if(isset($_POST['firstname']) && isset($_POST['tos-agree'])){
                 <option value="Limburg">Limburg</option>
                 <option value="Flevoland">Flevoland</option>
             </select>
+            <br>
         </div>
         <div class="col-md-4">
+            <br>
             <label for="inputCity" class="form-label">Woonplaats</label>
             <input name="city" type="text" class="form-control" id="inputCity" placeholder="Woonplaats" required>
         </div>
         <div class="col-md-4">
+            <br>
             <label for="inputZip" class="form-label">Postcode</label>
             <input name="zip" type="text" class="form-control" id="inputZip" placeholder="1111AA" required>
         </div>
         <div class="col-md-4">
             <div class="form-check">
-                <input name="tos-agree" class="form-check-input" type="checkbox" value="true" id="invalidCheck" required>
                 <label class="form-check-label" for="invalidCheck">
-                    Je moet akkoord gaan met onze <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Terms of Service</a>
+                    <br>
+                    <br>Bij het aanmaken van een account ga je akkoord met onze <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Algemene Voorwaarden</a>
                 </label>
             </div>
         </div>

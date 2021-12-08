@@ -108,7 +108,7 @@ foreach($items as $item){
                     </p>
                     <form method="post">
                         <input type="hidden" name="updateQuantityProductId" value="<?php print($item['StockItemID']) ?>">
-                    <h4 class="ItemQuantity">Aantal: <input type="number" name="updateQuantity" class="form-control form-control-sm" value="<?php print($amounts[$item['StockItemID']]); ?>" min="0"></h4>
+                    <h4 class="ItemQuantity">Aantal: <input type="number" name="updateQuantity" class="form-control form-control-sm" value="<?php print($amounts[$item['StockItemID']]); ?>" min="1"></h4>
                     </form>
                 </div>
         <?php

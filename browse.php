@@ -355,7 +355,7 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
     } else {
         ?>
         <h2 id="NoSearchResults">
-            Helaas, er zijn geen resultaten gevonden.
+            Er zijn geen resultaten gevonden.
         </h2>
         <?php
     }

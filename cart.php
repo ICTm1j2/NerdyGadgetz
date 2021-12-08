@@ -132,7 +132,7 @@ foreach($items as $item){
         </div></div>
 </div>
 <hr>
-<center><p><a href='index.php'>Terug naar start</a></p></center>
+<center><p><a href='index.php'>Verder winkelen</a></p></center>
 </body>
 </html>
 <?php

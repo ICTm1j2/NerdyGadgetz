@@ -61,9 +61,6 @@ foreach($cart as $id=>$amount){
 
         <?php
         $total = 0;
-        foreach($items as $item){
-            $total = $total + $item['SellPrice'] * $amounts[$item['StockItemID']];
-        }
 
         ?>
         <div id="ResultsArea" class="container container-sm">
@@ -116,6 +113,10 @@ foreach($cart as $id=>$amount){
                             </div>
                         </div>
                         <?php
+                    }
+
+                    foreach($items as $item){
+                        $total = $total + $item['SellPrice'] * $amounts[$item['StockItemID']];
                     }
                     ?>
                 </div>

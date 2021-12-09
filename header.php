@@ -50,10 +50,16 @@ $databaseConnection = connectToDatabase();
 
         <ul id="ul-class-navigation">
             <li>
-                <a href="browse.php" class="HrefDecoration"><i class="fas fa-search search"></i> Zoeken </a>
+                <a href="browse.php" class="HrefDecoration"><i class="fas fa-search search"></i> Zoeken</a>
             </li>
             <li>
-                <a href="cart.php" class="HrefDecoration"><i class="fas fa-shopping-cart search"></i> Winkelmand </a>
+                <a href="cart.php" class="HrefDecoration"><i class="fas fa-shopping-cart search"></i> Winkelmand
+                    <?php
+                    if(isset($_SESSION['cart'])){
+                        print(getAantalInWinkelmand($_SESSION['cart']));
+                    }
+                    ?>
+                </a>
             </li>
             <?php
             if(isset($_SESSION['login'])){
@@ -66,7 +72,7 @@ $databaseConnection = connectToDatabase();
             }else{
             ?>
             <li>
-                <a href="inloggen.php" class="HrefDecoration"><i class="fas fa-user search"></i> Inloggen </a>
+                <a href="inloggen.php" class="HrefDecoration"><i class="fas fa-user search"></i> Inloggen</a>
             </li>
         <?php } ?>
         </ul>

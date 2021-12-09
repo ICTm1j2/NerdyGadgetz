@@ -44,7 +44,7 @@ foreach($cart as $id=>$amount){
     </head>
     <body>
     <br>
-    <h1 class="winkelmand-center">Winkelmand</h1>
+    <h1 class="winkelmand-center">Winkelmand </h1>
     <div>
         <?php
         $leeg = false;
@@ -88,6 +88,20 @@ foreach($cart as $id=>$amount){
                                 }
                                 ?>
                             </a>
+                            <h1 class="StockItemID">Artikelnummer: <?php print($item['StockItemID']) ?></h1>
+                            <p class="StockItemName"><?php print($item['StockItemName']) ?></p>
+                            <p class="StockItemComments"><h6>€
+                                <?php
+                                print sprintf(" %0.2f", $item['SellPrice']);
+                                print(" Per stuk (incl. BTW)");
+                                ?></h6>
+                            <a role="button" class="btn btn-sm btn-danger text-light" href="cart.php?action=delete&productid=<?php print($item['StockItemID']); ?>">Verwijder</a>
+                            <h4> <?php if(filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT) < ($amounts[$item['StockItemID']])){
+                                ?></h4><p><?php $amounts[$item['StockItemID']] = filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT);print ("Sorry er zijn niet meer dan " . filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT) . " leverbaar."); $teVeelBesteld = true;?></p> <?php } ?>
+                            <form method="post">
+                                <input type="hidden" name="updateQuantityProductId" value="<?php print($item['StockItemID']) ?>">
+                                <h4 class="ItemQuantity">Aantal: <input type="number" name="updateQuantity" class="form-control form-control-sm" value="<?php print($amounts[$item['StockItemID']]); ?>" min="1"></h4>
+                            </form>
                             <div id="StockItemFrameRight">
                                 <div class="CenterPriceLeftChild">
                                     <h1 class="StockItemPriceText"><?php
@@ -100,19 +114,6 @@ foreach($cart as $id=>$amount){
                                         ?>
                                 </div>
                             </div>
-                            <h1 class="StockItemID">Artikelnummer: <?php print($item['StockItemID']) ?></h1>
-                            <p class="StockItemName"><?php print($item['StockItemName']) ?></p>
-                            <p class="StockItemComments"><h6>€
-                                <?php
-                                print sprintf(" %0.2f", $item['SellPrice']);
-                                print(" Per stuk (incl. BTW)");
-                                ?></h6><br>
-                            <a role="button" class="btn btn-sm btn-danger text-light" href="cart.php?action=delete&productid=<?php print($item['StockItemID']); ?>">Verwijder</a>
-                            </p>
-                            <form method="post">
-                                <input type="hidden" name="updateQuantityProductId" value="<?php print($item['StockItemID']) ?>">
-                                <h4 class="ItemQuantity">Aantal: <input type="number" name="updateQuantity" class="form-control form-control-sm" value="<?php print($amounts[$item['StockItemID']]); ?>" min="1"></h4>
-                            </form>
                         </div>
                         <?php
                     }

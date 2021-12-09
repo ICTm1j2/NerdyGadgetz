@@ -18,6 +18,8 @@ if(isset($_POST['updateQuantity']) && isset($_POST['updateQuantityProductId'])){
         $deleteMelding = "<div class='container container-sm'><div class='alert alert-info'>Het aantal is bijgewerkt.</div></div>";
     }else if ($update == 2){
         $deleteMelding = "<div class='container container-sm'><div class='alert alert-danger'>Je hebt een product verwijderd uit je winkelmand.</div></div>";
+    }else if ($update == 3){
+        $deleteMelding = "<div class='container container-sm'><div class='alert alert-warning'>Het aantal is niet bijgewerkt.</div></div>";
     }
 }
 

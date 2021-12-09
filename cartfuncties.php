@@ -38,8 +38,8 @@ function deleteProduct($stockItemID){
 }
 
 function updateProduct($stockItemID, $quantity){
-    if(($quantity == null) || $quantity == 0) {
-        return $stockItemID;
+    if(($quantity == null)) {
+        return 3;
     }
 
     $cart = getCart();

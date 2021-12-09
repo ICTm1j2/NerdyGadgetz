@@ -38,3 +38,14 @@ function getGegevens($connection, $klantId) {
         return null;
     }
 }
+
+function getAantalInWinkelmand($cart){
+    if(empty($cart)) return null;
+    $totaal = 0;
+    foreach ($cart as $item=>$aantal){
+        $totaal = $totaal + 1*$aantal;
+    }
+
+    if($totaal == 0) return null;
+    return "<div class='badge badge-danger'>" . $totaal . "</div>";
+}

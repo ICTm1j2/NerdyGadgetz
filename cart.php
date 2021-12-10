@@ -94,7 +94,7 @@ foreach($cart as $id=>$amount){
                                 ?></h6>
                             <a role="button" class="btn btn-sm btn-danger text-light" href="cart.php?action=delete&productid=<?php print($item['StockItemID']); ?>">Verwijder</a>
                             <h4> <?php if(filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT) < ($amounts[$item['StockItemID']])){
-                                ?></h4><p><?php $amounts[$item['StockItemID']] = filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT);print ("Sorry er zijn niet meer dan " . filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT) . " leverbaar."); $teVeelBesteld = true;?></p> <?php } ?>
+                                ?></h4><p><?php $amounts[$item['StockItemID']] = filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT);print ("Sorry, er zijn niet meer dan " . filter_var($item['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT) . " stuks leverbaar."); $teVeelBesteld = true;?></p> <?php } ?>
                             <form method="post">
                                 <input type="hidden" name="updateQuantityProductId" value="<?php print($item['StockItemID']) ?>">
                                 <h4 class="ItemQuantity">Aantal: <input type="number" name="updateQuantity" class="form-control form-control-sm" value="<?php print($amounts[$item['StockItemID']]); ?>" min="1"></h4>

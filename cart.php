@@ -105,7 +105,7 @@ foreach($cart as $id=>$amount){
                                         if($item['SellPrice'] == -1){
                                             print("Niet leverbaar");
                                         }else{
-                                            print sprintf(" %0.2f", $item['SellPrice'] * $amounts[$item['StockItemID']]);
+                                            print sprintf(" €%0.2f", $item['SellPrice'] * $amounts[$item['StockItemID']]);
                                             print("</h1> <h6>Subtotaal (incl. BTW) </h6>");
                                         }
                                         ?>
@@ -125,7 +125,7 @@ foreach($cart as $id=>$amount){
                         <div class="card-body">
                             <h5 class="card-title">Totaal: <?php
                                 if(!(count($items) < 1)){
-                                    print(sprintf("€ %.2f", $total));
+                                    print(sprintf("€%.2f", $total));
                                 }
                                 ?></h5>
                             <?php if($leeg) {print("<p class=\"card-text\">Er zit nog niks in je winkelmand.</p>");}?>

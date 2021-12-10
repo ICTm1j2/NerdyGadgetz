@@ -298,7 +298,7 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
                                 if($prijs1 == -1){
                                     print("Niet leverbaar");
                                 }else{
-                                    print sprintf(" %0.2f", $prijs1);
+                                    print sprintf(" €%0.2f", $prijs1);
                                     print("</h1> <h6>Inclusief BTW </h6>");
                                 }
                                 ?>

@@ -63,7 +63,7 @@ $databaseConnection = connectToDatabase();
             </li>
             <?php
             if(isset($_SESSION['login'])){
-                $gebruikersnaam = getGebruikersnaam($databaseConnection, $_SESSION['login']);
+                $gebruikersnaam = getFirstname($databaseConnection, $_SESSION['login']);
                 ?>
                 <li>
                     <a href="inloggen.php" class="HrefDecoration"><i class="fas fa-user search"></i> <?php print($gebruikersnaam); ?></a>

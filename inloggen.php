@@ -13,10 +13,10 @@ if(isset($_SESSION['login'])){
 }
 
 if(isset($_POST['email']) && isset($_POST['password'])){
-    $username = trim($_POST['email']);
+    $email = trim($_POST['email']);
     $password = sha1(trim($_POST['password']) . "NERDY");
 
-    $result = checkDetails($databaseConnection, $username, $password);
+    $result = checkDetails($databaseConnection, $email, $password);
     if(!$result){
         $melding = 1;
     }else if ($result->num_rows == 1){

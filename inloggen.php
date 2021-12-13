@@ -12,8 +12,8 @@ if(isset($_SESSION['login'])){
     $melding = 4;
 }
 
-if(isset($_POST['username']) && isset($_POST['password'])){
-    $username = trim($_POST['username']);
+if(isset($_POST['email']) && isset($_POST['password'])){
+    $username = trim($_POST['email']);
     $password = sha1(trim($_POST['password']) . "NERDY");
 
     $result = checkDetails($databaseConnection, $username, $password);
@@ -39,7 +39,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
             print("<div class='alert alert-success'>Je bent nu ingelogd.</div>");
             die();
         case 3:
-            print("<div class='alert alert-danger'>Je gebruikersnaam of wachtwoord is onjuist.</div>");
+            print("<div class='alert alert-danger'>Je email of wachtwoord is onjuist.</div>");
             break;
         case 4:
             print("<div class='alert alert-warning'>Je bent al ingelogd. Klik <a href='inloggen.php?logout=true'>hier</a> om uit te loggen.</div>");
@@ -49,8 +49,8 @@ if(isset($_POST['username']) && isset($_POST['password'])){
     ?>
     <form method="post">
         <div class="mb-3">
-            <label for="inputUsername1" class="form-label">Gebruikersnaam</label>
-            <input name="username" type="text" class="form-control" id="inputUsername1" placeholder="Gebruikersnaam" value="<?php print(printUsername()); ?>">
+            <label for="inputEmail1" class="form-label">E-mail Adres</label>
+            <input name="email" type="email" class="form-control" id="inputEmail1" placeholder="E-mail Adres" value="<?php print(printEmail()); ?>">
         </div>
         <div class="mb-3">
             <label for="inputPassword1" class="form-label">Wachtwoord</label>
@@ -69,9 +69,9 @@ if(isset($_POST['username']) && isset($_POST['password'])){
 <?php
 include __DIR__ . "/footer.php";
 
-function printUsername(){
-    if(isset($_POST['username'])){
-        return trim($_POST['username']);
+function printEmail(){
+    if(isset($_POST['email'])){
+        return trim($_POST['email']);
     }else return null;
 }
 

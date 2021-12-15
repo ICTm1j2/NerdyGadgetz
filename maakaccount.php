@@ -13,7 +13,7 @@ if(isset($_POST['firstname'] )){
     $phoneNumber = trim($_POST['phonenumber']);
     $city = trim($_POST['city']);
     $zipCode = trim($_POST['zip']);
-    if(createAccount($databaseConnection, $firstName, $lastName, $email, $password, $streetName, $houseNumber, $phoneNumber, $city, $zipCode)){
+    if(createPerson($databaseConnection, $firstName, $lastName, $email, $password, $streetName, $houseNumber, $phoneNumber, $city, $zipCode)){
         $melding = 1;
     }else $melding = 2;
 }
@@ -69,7 +69,7 @@ if(isset($_POST['firstname'] )){
         <div class="col-md-6">
             <div class="form-check">
                 <label class="form-check-label" for="invalidCheck">
-                    <br>Bij het aanmaken van een account ga je akkoord met onze <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Algemene Voorwaarden</a>
+                    <br>Bij het aanmaken van een account ga je akkoord met onze <a href="<?php print($termsOfServce); ?>" target="_blank">Algemene Voorwaarden</a>
                 </label>
             </div>
         </div>

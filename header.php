@@ -3,7 +3,10 @@
 session_start();
 include "database.php";
 include "accountfuncties.php";
+include "orderfuncties.php";
 $databaseConnection = connectToDatabase();
+
+$termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,42 +1,34 @@
 <?php
 include __DIR__ . "/header.php";
 
-if(!(isset($_POST['firstname']))){
-    die("<div class='alert alert-danger'>Er gaat iets mis...</div>");
+if(!(isset($_GET['customer']))){
+    die("<div class='alert alert-danger'>Er gaat iets mis. (Login)</div>");
 }
 
-$cart = $_SESSION['cart'];
-$voornaam = $_POST['firstname'];
-$achternaam = $_POST['lastname'];
-$email = $_POST['email'];
-$straat = $_POST['streetname'];
-$huisnummer = $_POST['housenumber'];
-$provincie = $_POST['state'];
-$woonplaats = $_POST['city'];
-$postcode = $_POST['zip'];
+if(!isset($_SESSION['cart'])){
+    die("<div class='alert alert-danger'>Er gaat iets mis. (Winkelmand)</div>");
+}
 
 if(isset($_POST['betaal'])){
+    $order = placeOrder($databaseConnection, $_SESSION['cart'], $_GET['customer']);
     unset($_SESSION['cart']);
-    print("<br><div class='container container-sm'><div class='alert alert-success'>Bedankt voor je bestelling! We gaan zo snel mogelijk aan de slag!</div></div>");
-    //
 }
 ?>
 
     <div class="container container-sm">
         <div class="text-center">
+            <?php if(!isset($_POST['betaal'])){ ?>
     <img width="750" src="Public\Img\ideal.png">
     <form method="post">
-        <input type="hidden" value="<?php print($voornaam); ?>" name="firstname">
-        <input type="hidden" value="<?php print($achternaam); ?>" name="lastname">
-        <input type="hidden" value="<?php print($email); ?>" name="email">
-        <input type="hidden" value="<?php print($straat); ?>" name="streetname">
-        <input type="hidden" value="<?php print($huisnummer); ?>" name="housenumber">
-        <input type="hidden" value="<?php print($provincie); ?>" name="state">
-        <input type="hidden" value="<?php print($woonplaats); ?>" name="city">
-        <input type="hidden" value="<?php print($postcode); ?>" name="zip">
-        <input type="hidden" name="betaal" value="ja">
+        <input type="hidden" name="betaal" value="yes">
         <br><button class="btn btn-lg btn-success" type="submit">Betalen</button>
     </form>
+    <?php }else { ?>
+                    <h1>Bedankt voor je bestelling!</h1>
+                <h3>We gaan zo snel mogelijk voor je aan de slag!</h3>
+                <div class="alert alert-success">Je bestelling is geplaatst. <strong>Ordernummer: <?php print($order); ?></strong></div>
+
+    <?php } ?>
         </div>
 </div>
 

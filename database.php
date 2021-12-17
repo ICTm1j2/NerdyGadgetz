@@ -98,3 +98,5 @@ function getStockItemImage($id, $databaseConnection) {
     return $R;
 }
 
+$dbTemp = mysqli_connect("localhost", "root", "", "nerdygadgets");
+?>

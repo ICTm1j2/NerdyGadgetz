@@ -99,4 +99,20 @@ function getStockItemImage($id, $databaseConnection) {
 }
 
 $dbTemp = mysqli_connect("localhost", "root", "", "nerdygadgets");
+
+function getTemperature ($databaseConnection) {
+
+    $Query = "
+                SELECT temperature
+                FROM coldroomtemperatures
+                WHERE ColdRoomTemperatureID = (
+                SELECT MAX(ColdRoomTemperatureID)
+                FROM coldroomtemperatures)";
+
+    $Statement = mysqli_prepare($databaseConnection, $Query);
+    //mysqli_stmt_bind_param($Statement, "d", $temp);
+    mysqli_stmt_execute($Statement);
+    $result = mysqli_stmt_get_result($Statement);
+    return $result->fetch_row()[0];
+}
 ?>

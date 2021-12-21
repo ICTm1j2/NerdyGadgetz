@@ -130,6 +130,14 @@ foreach($cart as $id=>$amount){
                                 ?></h5>
                             <?php if($leeg) {print("<p class=\"card-text\">Er zit nog niks in je winkelmand.</p>");}?>
                             <p id="text-test"></p>
+                            <?php if(count($items) > 0) 
+                            {
+                                print("<p>Verzending: <b>gratis</b></p>");
+                            } 
+                            else {
+                                print("");
+                            }
+                            ?>
                             <a href="afronden.php" class="btn btn-primary winkelmand-toevoegen-knop">Bestelling Afronden</a>
                         </div>
                     </div>
@@ -149,4 +157,5 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
         return $verkoopPrijs;
     }
 }
+include "footer.php";
 ?>

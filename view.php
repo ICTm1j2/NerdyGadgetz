@@ -90,11 +90,14 @@ if (isset($_GET["id"])) {
             }
             ?>
 
-
             <h1 class="StockItemID">Artikelnummer: <?php print $StockItem["StockItemID"]; ?></h1>
             <h2 class="StockItemNameViewSize StockItemName">
                 <?php print $StockItem['StockItemName']; ?>
             </h2>
+            <?php
+            echo("4." . rand(5, 9) . "/5");
+            ?>
+            <img src="https://www.flickhive.com/wp-content/uploads/4.5-stars.png" style="max-width: 100px; max-height: 100px;">
             <div class="QuantityText"><?php
                 if(!($StockItem['SellPrice'] < 0)){
                     print $StockItem['QuantityOnHand'];
@@ -116,12 +119,14 @@ if (isset($_GET["id"])) {
                                     print("<h6> Inclusief BTW </h6>");
                                 }
                                 ?>
-
+                                <p>Voor 23:59 besteld, morgen in huis</p>
                                 <!-- formulier via POST en niet GET om te zorgen dat refresh van pagina niet het artikel onbedoeld toevoegt-->
-                        <div class="winkelmand-knop"><form method="post">
+                        <div class="winkelmand-knop" style="padding-top: 15px!important">
+                            <form method="post">
                             <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
                                 <input type="submit" class="btn btn-danger winkelmand-toevoegen-knop text-light" name="submit" value="Voeg toe aan winkelmand" <?php if($StockItem['SellPrice'] < 0) {print("disabled");} ?>>
-                            </form></div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -180,6 +185,5 @@ if (isset($_GET["id"])) {
         ?><h2 id="ProductNotFound">Het opgevraagde product is niet gevonden.</h2><?php
     } ?>
 </div>
-
 </body>
 </html>

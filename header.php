@@ -24,10 +24,25 @@ $termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
     <link rel="stylesheet" href="Public/CSS/style.css" type="text/css">
     <link rel="stylesheet" href="Public/CSS/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="Public/CSS/typekit.css">
+    <style>
+        .wrapContainer p {
+            margin-bottom: 0!important;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 <div class="Background">
-    <div class="row" id="Header">
+    <div class="wrapContainer" style="background-color: #5e00ff; position: fixed; width: 100%; top:0; z-index: 999;">
+    <div class="container">
+        <div class="row py-1 justify-content-between">
+                <p><b>Gratis</b> verzending </p>
+                <p>Bezorging dezelfde dag, 's avonds of in het weekend</p>
+                <p><b>Gratis</b> retourneren</p>
+        </div>
+</div>
+</div>
+    <div class="row" id="Header">ß
         <div class="col-2"><a href="./" id="LogoA">
                 <div id="LogoImage"></div>
             </a></div>

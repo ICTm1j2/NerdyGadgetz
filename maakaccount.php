@@ -69,7 +69,7 @@ if(isset($_POST['firstname'] )){
         <div class="col-md-6">
             <div class="form-check">
                 <label class="form-check-label" for="invalidCheck">
-                    <br>Bij het aanmaken van een account ga je akkoord met onze <a href="<?php print($termsOfServce); ?>" target="_blank">Algemene Voorwaarden</a>
+                    <br>Bij het aanmaken van een account ga je akkoord met onze <a href="<?php print($termsOfService); ?>" target="_blank">Algemene Voorwaarden</a>
                 </label>
             </div>
         </div>

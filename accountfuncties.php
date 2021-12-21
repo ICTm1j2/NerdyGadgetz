@@ -2,10 +2,10 @@
 
 function createPerson($connection, $firstName, $lastName, $email, $password, $streetName, $houseNumber, $phoneNumber, $city, $zipCode) {
     $statement = mysqli_prepare($connection, "INSERT INTO people (FullName, PreferredName, SearchName, IsPermittedToLogon, LogonName, HashedPassword, PhoneNumber, EmailAddress, ValidFrom, ValidTo, LastEditedBy) 
-                                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now(), ?);");
+                                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, now(), ?, ?);");
     $name = $firstName . " " . $lastName;
     $searchName = $firstName . " " . $name;
-    $validto = "9999-12-31 23:59:59";
+    $validto = '9999-12-31 23:59:59';
     $ding = 1;
     mysqli_stmt_bind_param($statement, 'sssissssis', $name, $firstName, $searchName, $ding, $email, $password, $phoneNumber, $email, $validto, $ding);
     mysqli_stmt_execute($statement);

@@ -97,6 +97,7 @@ if (isset($_GET["id"])) {
             <div class="QuantityText"><?php
                 if(!($StockItem['SellPrice'] < 0)){
                     print $StockItem['QuantityOnHand'];
+                    print ((' / Opslagtemperatuur: ') . getTemperature($databaseConnection) . ('ºC'));
                 }
                 ?></div>
             <div id="StockItemHeaderLeft">

@@ -110,7 +110,6 @@ function getTemperature ($databaseConnection) {
                 FROM coldroomtemperatures)";
 
     $Statement = mysqli_prepare($databaseConnection, $Query);
-    //mysqli_stmt_bind_param($Statement, "d", $temp);
     mysqli_stmt_execute($Statement);
     $result = mysqli_stmt_get_result($Statement);
     return $result->fetch_row()[0];

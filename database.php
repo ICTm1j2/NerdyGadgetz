@@ -112,6 +112,27 @@ function getTemperature ($databaseConnection) {
     $Statement = mysqli_prepare($databaseConnection, $Query);
     mysqli_stmt_execute($Statement);
     $result = mysqli_stmt_get_result($Statement);
+    if($result->num_rows == 0){
+        return false;
+    }
+    return $result->fetch_row()[0];
+}
+
+function getIsChillerStock($id, $databaseConnection)
+{
+
+    $Query = "
+                SELECT IsChillerStock
+                FROM stockitems 
+                WHERE StockItemID = ?";
+
+    $Statement = mysqli_prepare($databaseConnection, $Query);
+    mysqli_stmt_bind_param($Statement, "i", $id);
+    mysqli_stmt_execute($Statement);
+    $result = mysqli_stmt_get_result($Statement);
+    if($result->num_rows == 0){
+        return false;
+    }
     return $result->fetch_row()[0];
 }
 ?>

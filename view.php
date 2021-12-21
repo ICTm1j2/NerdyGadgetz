@@ -5,6 +5,7 @@ include "cartfuncties.php";
 
 $StockItem = getStockItem($_GET['id'], $databaseConnection);
 $StockItemImage = getStockItemImage($_GET['id'], $databaseConnection);
+$Chilled = getIsChillerStock($_GET['id'], $databaseConnection);
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -97,7 +98,9 @@ if (isset($_GET["id"])) {
             <div class="QuantityText"><?php
                 if(!($StockItem['SellPrice'] < 0)){
                     print $StockItem['QuantityOnHand'];
-                    print ((' / Opslagtemperatuur: ') . getTemperature($databaseConnection) . ('ºC'));
+                if ($Chilled) {
+                    print (' / Opslagtemperatuur: ' . getTemperature($databaseConnection) . ('°C'));
+                }
                 }
                 ?></div>
             <div id="StockItemHeaderLeft">

@@ -42,8 +42,8 @@ if(isset($_POST['email']) && isset($_POST['password'])){
             print("<div class='alert alert-danger'>Je email of wachtwoord is onjuist.</div>");
             break;
         case 4:
-            print("<div class='alert alert-warning'>Je bent al ingelogd. Klik <a href='inloggen.php?logout=true'>hier</a> om uit te loggen.</div>");
-            die();
+            header("Location: account.php");
+            die("<div class='alert alert-warning'>Je bent al ingelogd. Klik <a href='inloggen.php?logout=true'>hier</a> om uit te loggen.</div>");
     }
 
     ?>

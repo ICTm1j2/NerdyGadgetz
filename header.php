@@ -69,13 +69,13 @@ $termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
                 $gebruikersnaam = getFirstname($databaseConnection, $_SESSION['login']);
                 ?>
                 <li>
-                    <a href="inloggen.php" class="HrefDecoration"><i class="fas fa-user search"></i> <?php print($gebruikersnaam); ?></a>
+                    <a href="account.php" class="HrefDecoration"><i class="fas fa-user search"></i> <?php print($gebruikersnaam); ?></a>
                 </li>
             <?php
             }else{
             ?>
             <li>
-                <a href="inloggen.php" class="HrefDecoration"><i class="fas fa-user search"></i> Inloggen</a>
+                <a href="account.php" class="HrefDecoration"><i class="fas fa-user search"></i> Inloggen</a>
             </li>
         <?php } ?>
         </ul>

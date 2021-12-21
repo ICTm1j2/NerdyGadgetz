@@ -7,7 +7,7 @@ function createPerson($connection, $firstName, $lastName, $email, $password, $st
     $searchName = $firstName . " " . $name;
     $validto = '9999-12-31 23:59:59';
     $ding = 1;
-    mysqli_stmt_bind_param($statement, 'sssissssis', $name, $firstName, $searchName, $ding, $email, $password, $phoneNumber, $email, $validto, $ding);
+    mysqli_stmt_bind_param($statement, 'sssisssssi', $name, $firstName, $searchName, $ding, $email, $password, $phoneNumber, $email, $validto, $ding);
     mysqli_stmt_execute($statement);
     $result1 = mysqli_stmt_affected_rows($statement);
     $date = date("Y-m-d");

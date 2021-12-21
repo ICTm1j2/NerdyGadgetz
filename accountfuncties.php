@@ -62,6 +62,18 @@ function getFirstname($connection, $klantId){
     }
 }
 
+function getEmail($connection, $klantId){
+    $statement = mysqli_prepare($connection, "SELECT LogonName FROM people WHERE PersonID = ? LIMIT 0,1");
+    mysqli_stmt_bind_param($statement, 'i', $klantId);
+    mysqli_stmt_execute($statement);
+    $result =  mysqli_stmt_get_result($statement);
+    if($result->num_rows == 1){
+        return $result->fetch_row()[0];
+    }else{
+        return null;
+    }
+}
+
 function getAantalInWinkelmand($cart){
     if(empty($cart)) return null;
     $totaal = 0;

@@ -131,8 +131,44 @@ function getIsChillerStock($id, $databaseConnection)
     mysqli_stmt_execute($Statement);
     $result = mysqli_stmt_get_result($Statement);
     if($result->num_rows == 0){
-        return false;
+        return 0;
     }
     return $result->fetch_row()[0];
+}
+
+function getTemperatureCount ($databaseConnection) {
+
+    $Query = "
+                SELECT count(*)
+                FROM coldroomtemperatures";
+
+    $Statement = mysqli_prepare($databaseConnection, $Query);
+    mysqli_stmt_execute($Statement);
+    $result = mysqli_stmt_get_result($Statement);
+    return $result->fetch_row()[0];
+}
+
+function archiveTemperature ($databaseConnection) {
+
+    $Query = "
+                INSERT INTO coldroomtemperatures_archive SELECT * FROM coldroomtemperatures WHERE ColdRoomTemperatureID = (SELECT min(ColdRoomTemperatureID) FROM coldroomtemperatures);";
+
+    $Statement = mysqli_prepare($databaseConnection, $Query);
+    mysqli_stmt_execute($Statement);
+    if (mysqli_affected_rows($databaseConnection) > 0) {
+        deleteArchivedTemperature($databaseConnection);
+    } else {
+        return false;
+    }
+}
+
+function deleteArchivedTemperature ($databaseConnection)
+{
+
+    $Query = "
+                DELETE FROM coldroomtemperatures WHERE ColdRoomTemperatureID = (SELECT min(ColdRoomTemperatureID) FROM coldroomtemperatures);";
+
+    $Statement = mysqli_prepare($databaseConnection, $Query);
+    mysqli_stmt_execute($Statement);
 }
 ?>

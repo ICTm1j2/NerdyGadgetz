@@ -1,13 +1,17 @@
 <?php
-include ('database.php');
-
+include __DIR__ . "/header.php";
 date_default_timezone_set('Europe/Amsterdam');
+
 $dateS = date('y-m-d h:i:s', time());
-echo $dateS;
-
 $temp = $_GET["temp"];
+$validto = '9999-12-31 23:59:59';
+$sensorNumber = rand(1,4);
 
-$SQL = "INSERT INTO demo_coldroomtemperatures (RecordedWhen, Temperature) VALUES ('$dateS',$temp)";
-
-mysqli_query($dbTemp, $SQL);
+if (getTemperatureCount($databaseConnection) > 4) {
+    archiveTemperature($databaseConnection);
+}
+    $SQL = "INSERT INTO coldroomtemperatures (RecordedWhen, ColdRoomSensorNumber, Temperature, ValidFrom, ValidTo) VALUES ('$dateS', $sensorNumber,$temp, '$dateS', '$validto')";
+    mysqli_query($dbTemp, $SQL);
 ?>
+
+

@@ -141,7 +141,8 @@ if (isset($_GET["id"])) {
 
         <div id="StockItemDescription">
             <h3>Artikel beschrijving</h3>
-            <p><?php print $StockItem['SearchDetails']; ?></p>
+            <p><?php print $StockItem['SearchDetails']; ?></p><br>
+            Dit product komt met een standaard garantie van 2 jaar
         </div>
         <div id="StockItemSpecifications">
             <h3>Artikel specificaties</h3>

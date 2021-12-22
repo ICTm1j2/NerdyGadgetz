@@ -49,8 +49,8 @@ if(isset($_POST['email']) && isset($_POST['password'])){
     ?>
     <form method="post">
         <div class="mb-3">
-            <label for="inputEmail1" class="form-label">E-mail Adres</label>
-            <input name="email" type="email" class="form-control" id="inputEmail1" placeholder="E-mail Adres" value="<?php print(printEmail()); ?>">
+            <label for="inputEmail1" class="form-label">E-mailadres</label>
+            <input name="email" type="email" class="form-control" id="inputEmail1" placeholder="E-mailadres" value="<?php print(printEmail()); ?>">
         </div>
         <div class="mb-3">
             <label for="inputPassword1" class="form-label">Wachtwoord</label>

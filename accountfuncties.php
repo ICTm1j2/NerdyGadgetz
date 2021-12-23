@@ -142,7 +142,7 @@ function changeDetails($connection, $klantid, $email, $name, $phonenumber, $addr
 
 function getOrdersFromAccount($connection, $klantid){
     $customer = getCustomerIdFromAccount($connection, $klantid);
-    $statement = mysqli_prepare($connection, "SELECT OrderID, OrderDate FROM orders WHERE CustomerID = ?;");
+    $statement = mysqli_prepare($connection, "SELECT OrderID, OrderDate FROM orders WHERE CustomerID = ? ORDER BY OrderID DESC;");
     mysqli_stmt_bind_param($statement, 'i', $customer);
     mysqli_stmt_execute($statement);
     $result = mysqli_stmt_get_result($statement);

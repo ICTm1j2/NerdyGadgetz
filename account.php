@@ -56,11 +56,11 @@ if(isset($_POST['changedetails'])){
                                             $bezorgdag->modify("+1 days");
 
                                             if($bezorgdag <= new DateTime(date("Y-m-d"))){
-                                                print("<h1>Order ID: " . $row['OrderID'] . " <div class='badge small badge-success'>Bezorgd</div></h1>");
+                                                print("<h1>Bestelnummer: " . $row['OrderID'] . " <div class='badge small badge-success'>Bezorgd</div></h1>");
                                             }else{
-                                                print("<h1>Order ID: " . $row['OrderID'] . " <div class='badge small badge-warning text-light'>Betaald</div></h1>");
+                                                print("<h1>Bestelnummer: " . $row['OrderID'] . " <div class='badge small badge-warning text-light'>Betaald</div></h1>");
                                             }
-                                            print("<p>Order Date: " . $row['OrderDate'] . " </p>");
+                                            print("<p>Bestel Datum: " . $row['OrderDate'] . " </p>");
                                             echo "<p>Bezorgdag: " . $bezorgdag->format("Y-m-d") . "</p>";
                                             print("<br>");
                                         }

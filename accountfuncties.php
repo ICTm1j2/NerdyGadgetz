@@ -142,12 +142,12 @@ function changeDetails($connection, $klantid, $email, $name, $phonenumber, $addr
 
 function getOrdersFromAccount($connection, $klantid){
     $customer = getCustomerIdFromAccount($connection, $klantid);
-    $statement = mysqli_prepare($connection, "SELECT OrderID, CustomerID, OrderDate FROM orders WHERE CustomerID = ?;");
+    $statement = mysqli_prepare($connection, "SELECT OrderID, OrderDate FROM orders WHERE CustomerID = ?;");
     mysqli_stmt_bind_param($statement, 'i', $customer);
     mysqli_stmt_execute($statement);
     $result = mysqli_stmt_get_result($statement);
-    if($result->num_rows == 1){
-        return $result->fetch_array();
+    if($result->num_rows > 0){
+        return $result;
     }else{
         return null;
     }

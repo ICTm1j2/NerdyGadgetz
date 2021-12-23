@@ -49,7 +49,23 @@ if(isset($_POST['changedetails'])){
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Mijn Orders</h5>
-                                    <p class="card-text"><?php print_r($orders); ?></p>
+                                    <p class="card-text"><?php
+                                        while ($row = mysqli_fetch_array($orders)){
+
+                                            $bezorgdag = new DateTime($row['OrderDate']);
+                                            $bezorgdag->modify("+1 days");
+
+                                            if($bezorgdag <= new DateTime(date("Y-m-d"))){
+                                                print("<h1>Order ID: " . $row['OrderID'] . " <div class='badge small badge-success'>Bezorgd</div></h1>");
+                                            }else{
+                                                print("<h1>Order ID: " . $row['OrderID'] . " <div class='badge small badge-warning text-light'>Betaald</div></h1>");
+                                            }
+                                            print("<p>Order Date: " . $row['OrderDate'] . " </p>");
+                                            echo "<p>Bezorgdag: " . $bezorgdag->format("Y-m-d") . "</p>";
+                                            print("<br>");
+                                        }
+
+                                        ?></p>
                                 </div>
                             </div>
 

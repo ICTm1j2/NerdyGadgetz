@@ -9,6 +9,9 @@ include __DIR__ . "/header.php";
             if(!isset($_SESSION['cart'])){
                 die("<div class='container container-sm'><div class='text-center alert alert-danger'>Je moet eerst wat in je winkelmand plaatsen. <a href='index.php'>Verder Winkelen</a></div></div>");
             }
+            if(empty($_SESSION['cart'])){
+                die("<div class='container container-sm'><div class='text-center alert alert-danger'>Je moet eerst wat in je winkelmand plaatsen. <a href='index.php'>Verder Winkelen</a></div></div>");
+            }
             $cart = $_SESSION['cart'];
             ?>
             <?php if(isset($_SESSION['login'])) { ?>

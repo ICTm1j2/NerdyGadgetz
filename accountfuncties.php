@@ -32,10 +32,10 @@ function createCustomer($connection, $peopleId, $name, $date, $phoneNumber, $add
     return mysqli_stmt_affected_rows($statement);
 }
 
-function createCustomerGetId($connection, $peopleId, $name, $date, $phoneNumber, $address, $zipCode, $validto){
+function createCustomerGetId($connection, $name, $date, $phoneNumber, $address, $zipCode, $validto){
     $statement = mysqli_prepare($connection, "INSERT INTO customers (CustomerName, PrimaryContactPersonID, AccountOpenedDate, PhoneNumber, DeliveryAddressLine1, DeliveryPostalCode, PostalAddressLine1, PostalPostalCode, ValidFrom, ValidTo) 
-                                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, now(), ?);");
-    mysqli_stmt_bind_param($statement, 'sisssssss', $name, $peopleId, $date, $phoneNumber, $address, $zipCode, $address, $zipCode, $validto);
+                                                        VALUES (?, null, ?, ?, ?, ?, ?, ?, now(), ?);");
+    mysqli_stmt_bind_param($statement, 'ssssssss', $name, $date, $phoneNumber, $address, $zipCode, $address, $zipCode, $validto);
     mysqli_stmt_execute($statement);
     $result = mysqli_stmt_affected_rows($statement);
     if($result == 1){
@@ -107,4 +107,49 @@ function getCustomerDetailsFromPerson($connection, $klantId){
     }else{
         return null;
     }
+}
+
+function getAccountDetails($connection, $klantid){
+    $statement = mysqli_prepare($connection, "SELECT P.PersonID, P.FullName, P.LogonName, P.PhoneNumber, P.ValidFrom, C.DeliveryAddressLine1, C.DeliveryPostalCode FROM People P JOIN Customers C ON P.PersonID = C.PrimaryContactPersonID
+                WHERE P.PersonID = ?");
+    mysqli_stmt_bind_param($statement, 'i', $klantid);
+    mysqli_stmt_execute($statement);
+    $result = mysqli_stmt_get_result($statement);
+    if($result->num_rows == 1){
+        return $result->fetch_row();
+    }else{
+        return null;
+    }
+
+}
+
+function changeDetails($connection, $klantid, $email, $name, $phonenumber, $address, $zipcode){
+    $statement = mysqli_prepare($connection, "UPDATE Customers SET CustomerName = ?, PhoneNumber = ?, DeliveryAddressLine1 = ?, DeliveryPostalCode = ?, PostalAddressLine1 = ?, PostalPostalCode = ?
+                                                    WHERE PrimaryContactPersonID = ?;");
+    mysqli_stmt_bind_param($statement, 'ssssssi', $name, $phonenumber, $address, $zipcode, $address, $zipcode, $klantid);
+    mysqli_stmt_execute($statement);
+    if(mysqli_affected_rows($connection) == 1){
+        $statement = mysqli_prepare($connection, "UPDATE People SET FullName = ?, PhoneNumber = ?, EmailAddress = ?
+                    WHERE PersonID = ?;");
+        mysqli_stmt_bind_param($statement, 'sssi', $name, $phonenumber, $email, $klantid);
+        mysqli_stmt_execute($statement);
+        if(mysqli_affected_rows($connection) == 1){
+            return true;
+        }
+    }
+    return false;
+}
+
+function getOrdersFromAccount($connection, $klantid){
+    $customer = getCustomerIdFromAccount($connection, $klantid);
+    $statement = mysqli_prepare($connection, "SELECT OrderID, CustomerID, OrderDate FROM orders WHERE CustomerID = ?;");
+    mysqli_stmt_bind_param($statement, 'i', $customer);
+    mysqli_stmt_execute($statement);
+    $result = mysqli_stmt_get_result($statement);
+    if($result->num_rows == 1){
+        return $result->fetch_array();
+    }else{
+        return null;
+    }
+
 }

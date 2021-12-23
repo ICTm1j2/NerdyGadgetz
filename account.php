@@ -22,11 +22,11 @@ if(!isset($_GET['page'])){
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <h5 class="card-title">Ingelogd als: <?php print(getEmail($databaseConnection, $_SESSION['login'])); ?></h5>
-                            <p class="card-text">Hier moet iets te komen staan</p>
-                            <ul>
-                                <li><a href="account.php?page=accountdetails">Mijn gegevens</a></li>
-                                <li><a href="account.php?page=orders">Mijn bestellingen</a></li>
-                            </ul>
+
+
+                                <a href="account.php?page=accountdetails">Mijn gegevens</a><br>
+                                <a href="account.php?page=orders">Mijn bestellingen</a>
+
                             <p id="text-test"></p>
                             <a href="inloggen.php?logout=true" class="btn btn-primary winkelmand-toevoegen-knop">Uitloggen</a>
                         </div>

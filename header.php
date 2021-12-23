@@ -36,9 +36,9 @@ $termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
     <div class="wrapContainer" style="background-color: #5e00ff; position: fixed; width: 100%; top:0; z-index: 999;">
     <div class="container">
         <div class="row py-1 justify-content-between">
-                <p><b>Gratis</b> verzending </p>
-                <p>Bezorging dezelfde dag, 's avonds of in het weekend</p>
-                <p><b>Gratis</b> retourneren</p>
+                <p><b>Gratis</b> verzending! </p>
+                <p>Bezorging dezelfde dag, 's avonds óf in het weekend!</p>
+                <p><b>Gratis</b> retourneren!</p>
         </div>
 </div>
 </div>

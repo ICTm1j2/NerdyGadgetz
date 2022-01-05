@@ -110,7 +110,7 @@ if (isset($_GET["id"])) {
                 <div class="CenterPriceLeft">
                     <div class="CenterPriceLeftChild">
                         <p class="StockItemPriceText"><b><?php
-                                if($StockItem['SellPrice'] < 0){
+                                if($StockItem['SellPrice'] <= 0){
                                     print("Niet leverbaar");
                                     print("</b></p>");
                                 }else{
@@ -124,7 +124,7 @@ if (isset($_GET["id"])) {
                         <div class="winkelmand-knop" style="padding-top: 15px!important">
                             <form method="post">
                             <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-                                <input type="submit" class="btn btn-danger winkelmand-toevoegen-knop text-light" name="submit" value="Voeg toe aan winkelmand" <?php if($StockItem['SellPrice'] < 0) {print("disabled");} ?>>
+                                <input type="submit" class="btn btn-danger winkelmand-toevoegen-knop text-light" name="submit" value="Voeg toe aan winkelmand" <?php if($StockItem['SellPrice'] <= 0) {print("disabled");} ?>>
                             </form>
                         </div>
                     </div>

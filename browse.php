@@ -295,7 +295,7 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
                         <div class="CenterPriceLeftChild">
                             <h1 class="StockItemPriceText"><?php
                                 $prijs1 = berekenVerkoopPrijs($row["RecommendedRetailPrice"], $row["TaxRate"]);
-                                if($prijs1 == -1){
+                                if($prijs1 <= 0){
                                     print("Niet leverbaar");
                                 }else{
                                     print sprintf(" €%0.2f", $prijs1);

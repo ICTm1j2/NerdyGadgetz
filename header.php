@@ -62,6 +62,9 @@ $termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
                 <li>
                     <a href="categories.php" class="HrefDecoration">Alle categorieën</a>
                 </li>
+                <li>
+                    <a href="debug.php" class="Debugger">Debugger</a>
+                </li>
             </ul>
         </div>
 <!-- code voor US3: zoeken -->

@@ -274,6 +274,12 @@ ul#ul-class-price li {
     text-decoration: none;
     color: #000000;
 }
+
+.Debugger {
+    color: #FF0000;
+    font-weight: bold;
+}
+
 .TextMain {
     color: #000000;
     font-family: vortice-concept, sans-serif;

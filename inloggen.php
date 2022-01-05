@@ -5,7 +5,7 @@ $melding = 0;
 
 if(isset($_GET['logout'])){
     unset($_SESSION['login']);
-    die("<div class='alert alert-info'>Je bent nu uitgelogd. Klik <a href='index.php'>hier</a> om terug te gaan.</div>");
+    print("<div class='alert alert-info'>Je bent nu uitgelogd.</div>");
 }
 
 if(isset($_SESSION['login'])){
@@ -36,8 +36,8 @@ if(isset($_POST['email']) && isset($_POST['password'])){
             print("<div class='alert alert-danger'>Er is een fout opgetreden, je kunt niet worden ingelogd.</div>");
             break;
         case 2:
-            print("<div class='alert alert-success'>Je bent nu ingelogd.</div>");
-            die();
+            header("Location: account.php");
+            die("<div class='alert alert-success'>Je bent nu ingelogd.</div>");
         case 3:
             print("<div class='alert alert-danger'>Je email of wachtwoord is onjuist.</div>");
             break;

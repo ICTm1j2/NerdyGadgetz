@@ -140,6 +140,26 @@ function changeDetails($connection, $klantid, $email, $name, $phonenumber, $addr
     return false;
 }
 
+function changePassword($connection, $klantid, $oldpassword, $newpassword){
+    $statement = mysqli_prepare($connection, "SELECT HashedPassword FROM People WHERE PersonID = ?");
+    mysqli_stmt_bind_param($statement, 'i', $klantid);
+    mysqli_stmt_execute($statement);
+    $result = mysqli_stmt_get_result($statement);
+    if($result->num_rows == 1){
+        if($result->fetch_row()[0] == $oldpassword){
+            // ga verder met het wachtwoord aanpassen
+            $statement = mysqli_prepare($connection, "UPDATE People SET HashedPassword = ? WHERE PersonID = ?");
+            mysqli_stmt_bind_param($statement, 'si', $newpassword, $klantid);
+            mysqli_stmt_execute($statement);
+            if(mysqli_affected_rows($connection) == 1){
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 function getOrdersFromAccount($connection, $klantid){
     $customer = getCustomerIdFromAccount($connection, $klantid);
     $statement = mysqli_prepare($connection, "SELECT OrderID, OrderDate FROM orders WHERE CustomerID = ? ORDER BY OrderID DESC;");

@@ -18,6 +18,12 @@ if(isset($_POST['changedetails'])){
     }else{
         print("<div class='alert alert-danger'>Er is iets mis gegaan tijdens het wijzigen van je gegevens.</div>");
     }
+}else if (isset($_POST['changepassword'])){
+    if(changePassword($databaseConnection, $_SESSION['login'], sha1(trim($_POST['oldPassword']) . "NERDY"), sha1(trim($_POST['newPassword']) . "NERDY"))){
+        print("<div class='alert alert-success'>Je wachtwoord is gewijzigd.</div>");
+    }else{
+        print("<div class='alert alert-danger'>Je huidige wachtwoord komt niet overeen met het huidige wachtwoord of er is een andere fout opgetreden.</div>");
+    }
 }
 
 ?>
@@ -33,6 +39,7 @@ if(isset($_POST['changedetails'])){
 
 
                                 <a href="account.php?page=accountdetails">Mijn gegevens</a><br>
+                                <a href="account.php?page=changepassword">Wachtwoord Wijzigen</a><br>
                                 <a href="account.php?page=orders">Mijn bestellingen</a>
 
                             <p id="text-test"></p>
@@ -50,19 +57,23 @@ if(isset($_POST['changedetails'])){
                                 <div class="card-body">
                                     <h5 class="card-title">Mijn Orders</h5>
                                     <p class="card-text"><?php
-                                        while ($row = mysqli_fetch_array($orders)){
+                                        if($orders == null) {
+                                            print("<div class='alert alert-danger'>Je hebt nog geen orders geplaats.</div>");
+                                        }else {
+                                            while ($row = mysqli_fetch_array($orders)){
 
-                                            $bezorgdag = new DateTime($row['OrderDate']);
-                                            $bezorgdag->modify("+1 days");
+                                                $bezorgdag = new DateTime($row['OrderDate']);
+                                                $bezorgdag->modify("+1 days");
 
-                                            if($bezorgdag <= new DateTime(date("Y-m-d"))){
-                                                print("<h1>Bestelnummer: " . $row['OrderID'] . " <div class='badge small badge-success'>Bezorgd</div></h1>");
-                                            }else{
-                                                print("<h1>Bestelnummer: " . $row['OrderID'] . " <div class='badge small badge-warning text-light'>Betaald</div></h1>");
+                                                if($bezorgdag <= new DateTime(date("Y-m-d"))){
+                                                    print("<h1>Bestelnummer: " . $row['OrderID'] . " <div class='badge small badge-success'>Bezorgd</div></h1>");
+                                                }else{
+                                                    print("<h1>Bestelnummer: " . $row['OrderID'] . " <div class='badge small badge-warning text-light'>Betaald</div></h1>");
+                                                }
+                                                print("<p>Bestel Datum: " . $row['OrderDate'] . " </p>");
+                                                echo "<p>Bezorgdag: " . $bezorgdag->format("Y-m-d") . "</p>";
+                                                print("<br>");
                                             }
-                                            print("<p>Bestel Datum: " . $row['OrderDate'] . " </p>");
-                                            echo "<p>Bezorgdag: " . $bezorgdag->format("Y-m-d") . "</p>";
-                                            print("<br>");
                                         }
 
                                         ?></p>
@@ -112,10 +123,33 @@ if(isset($_POST['changedetails'])){
                                         <input name="zipcode" type="text" class="form-control" id="inputZipcode1" placeholder="Postcode" value="<?php print($personalDetails[6]); ?>">
                                     </div>
                                     <button type="submit" class="btn btn-success">Opslaan</button>
+                                    <a role="button" class="btn btn-primary" href="account.php?page=changepassword">Wachtwoord Wijzigen</a>
                                 </form>
                             </div>
                         </div>
                     <?php
+                            break;
+                        case "changepassword":
+                            ?>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Wachtwoord Wijzigen</h5>
+                                    <form method="post">
+                                        <input type="hidden" name="changepassword" value="true">
+                                        <div class="mb-3">
+                                            <label for="inputOldPassword1" class="form-label">Huidig Wachtwoord</label>
+                                            <input name="oldPassword" type="password" class="form-control" id="inputOldPassword1" placeholder="Huidige wachtwoord">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="inputNewPassword1" class="form-label">Nieuw Wachtwoord</label>
+                                            <input name="newPassword" type="password" class="form-control" id="inputNewPassword1" placeholder="Nieuwe wachtwoord">
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Opslaan</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        <?php
                             break;
                         default:
                             print("<div class='alert alert-danger'>Die pagina kan niet worden gevonden.</div>");

@@ -4,6 +4,7 @@ session_start();
 include "database.php";
 include "accountfuncties.php";
 include "orderfuncties.php";
+include "reviewfuncties.php";
 $databaseConnection = connectToDatabase();
 
 $termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";

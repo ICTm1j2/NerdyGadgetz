@@ -122,7 +122,7 @@ if ($CategoryID == "") {
     }
 
     $Query = "
-                SELECT SI.StockItemID, SI.StockItemName, SI.MarketingComments, TaxRate, RecommendedRetailPrice, ROUND(TaxRate * RecommendedRetailPrice / 100 + RecommendedRetailPrice,2) as SellPrice,
+                SELECT avg(RE.Stars) 'Stars', SI.StockItemID, SI.StockItemName, SI.MarketingComments, TaxRate, RecommendedRetailPrice, ROUND(TaxRate * RecommendedRetailPrice / 100 + RecommendedRetailPrice,2) as SellPrice,
                 QuantityOnHand,
                 (SELECT ImagePath
                 FROM stockitemimages
@@ -130,6 +130,7 @@ if ($CategoryID == "") {
                 (SELECT ImagePath FROM stockgroups JOIN stockitemstockgroups USING(StockGroupID) WHERE StockItemID = SI.StockItemID LIMIT 1) as BackupImagePath
                 FROM stockitems SI
                 JOIN stockitemholdings SIH USING(stockitemid)
+                LEFT JOIN reviews RE USING (stockitemid)
                 " . $queryBuildResult . "
                 GROUP BY StockItemID
                 ORDER BY " . $Sort . "
@@ -157,7 +158,7 @@ if ($CategoryID == "") {
 
 if ($CategoryID !== "") {
     $Query = "
-           SELECT SI.StockItemID, SI.StockItemName, SI.MarketingComments, TaxRate, RecommendedRetailPrice,
+           SELECT avg(RE.Stars) 'Stars', SI.StockItemID, SI.StockItemName, SI.MarketingComments, TaxRate, RecommendedRetailPrice,
            ROUND(SI.TaxRate * SI.RecommendedRetailPrice / 100 + SI.RecommendedRetailPrice,2) as SellPrice,
            QuantityOnHand,
            (SELECT ImagePath FROM stockitemimages WHERE StockItemID = SI.StockItemID LIMIT 1) as ImagePath,
@@ -166,6 +167,7 @@ if ($CategoryID !== "") {
            JOIN stockitemholdings SIH USING(stockitemid)
            JOIN stockitemstockgroups USING(StockItemID)
            JOIN stockgroups ON stockitemstockgroups.StockGroupID = stockgroups.StockGroupID
+           LEFT JOIN reviews RE USING (stockitemid)
            WHERE " . $queryBuildResult . " ? IN (SELECT StockGroupID from stockitemstockgroups WHERE StockItemID = SI.StockItemID)
            GROUP BY StockItemID
            ORDER BY " . $Sort . "
@@ -301,12 +303,27 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
                                     print sprintf(" €%0.2f", $prijs1);
                                     print("</h1> <h6>Inclusief BTW </h6>");
                                 }
+
                                 ?>
                         </div>
                     </div>
                     <h1 class="StockItemID">Artikelnummer: <?php print $row["StockItemID"]; ?></h1>
                     <p class="StockItemName"><?php print $row["StockItemName"]; ?></p>
-                    <p class="StockItemComments"><?php print $row["MarketingComments"]; ?></p>
+                    <?php
+                    $rating = 0;
+                    if($row["Stars"] != null){
+                        $rating = $row["Stars"];
+                    }
+
+                    $rate = round($rating, 1);
+                    $rateFloored = floor($rating);
+                    if($rate == 0){
+                        $rate = "Dit product is nog niet beoordeeld.";
+                    }else{
+                        $rate = $rate . "/5 <img src='Public/Img/" . $rateFloored . "_Out_Of_5.png' style='max-width: 100px; max-height: 100px;'>";
+                    }
+                    ?>
+                    <p class="StockItemComments"><?php print $rate; ?></p>
                     <h4 class="ItemQuantity"><?php
                         if(!($prijs1 == -1)){
                             print getVoorraadTekst($row["QuantityOnHand"]);

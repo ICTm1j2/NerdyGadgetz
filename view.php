@@ -95,9 +95,11 @@ if (isset($_GET["id"])) {
                 <?php print $StockItem['StockItemName']; ?>
             </h2>
             <?php
-            echo("4." . rand(5, 9) . "/5");
+            $rating = getAvgRating($databaseConnection, $StockItem['StockItemID']);
+            print(round($rating, 1) . "/5");
+            $rating = floor($rating);
             ?>
-            <img src="https://www.flickhive.com/wp-content/uploads/4.5-stars.png" style="max-width: 100px; max-height: 100px;">
+            <img src="Public/Img/<?php print($rating); ?>_Out_Of_5.png" style="max-width: 100px; max-height: 100px;">
             <div class="QuantityText"><?php
                 if(!($StockItem['SellPrice'] < 0)){
                     print $StockItem['QuantityOnHand'];

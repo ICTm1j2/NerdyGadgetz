@@ -173,11 +173,3 @@ function getOrdersFromAccount($connection, $klantid){
     }
 
 }
-
-//function createReview ($connection, $stockItemID $PersonID, $review, $sterren) {
-//    $statement = mysqli_prepare($connection, "INSERT INTO reviews (StockItemID, PersonID, Review, Sterren)
-//                                                    Values (?, ?, ?, ?);");
-//    mysqli_stmt_bind_param($statement, 'iisi', $name, $stockItemID, $sersonID, $review, $sterren);
-//    mysqli_stmt_execute($statement);
-//    return mysqli_stmt_affected_rows($statement);
-//}

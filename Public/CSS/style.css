@@ -499,37 +499,37 @@ ul#ul-class-price li {
 }
 
 .rate {
-    float: left;
-    height: 46px;
-    padding: 0 10px;
+    float: left !important;
+    height: 46px !important;
+    padding: 0 10px !important;
 }
 .rate:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
+    position:absolute !important;
+    top:-9999px !important;
 }
 .rate:not(:checked) > label {
-    float:right;
-    width:1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:30px;
-    color:#ccc;
+    float:right !important;
+    width:1em !important;
+    overflow:hidden !important;
+    white-space:nowrap !important;
+    cursor:pointer !important;
+    font-size:30px !important;
+    color:#ccc !important;
 }
 .rate:not(:checked) > label:before {
-    content: '★ ';
+    content: '★ ' !important;
 }
 .rate > input:checked ~ label {
-    color: #ffc700;
+    color: #ffc700 !important;
 }
 .rate:not(:checked) > label:hover,
 .rate:not(:checked) > label:hover ~ label {
-    color: #deb217;
+    color: #deb217 !important;
 }
 .rate > input:checked + label:hover,
 .rate > input:checked + label:hover ~ label,
 .rate > input:checked ~ label:hover,
 .rate > input:checked ~ label:hover ~ label,
 .rate > label:hover ~ input:checked ~ label {
-    color: #c59b08;
+    color: #c59b08 !important;
 }

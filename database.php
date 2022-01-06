@@ -172,22 +172,4 @@ function deleteArchivedTemperature ($databaseConnection)
     mysqli_stmt_execute($Statement);
 }
 
-function getReviews ($id ,$databaseConnection) {
-
-    $Query = "
-                SELECT P.PreferredName, R.Review, R.Sterren
-                FROM reviews R
-                JOIN people P ON R.PersonID = P.PersonID
-                WHERE R.StockItemID = ?";
-
-    $Statement = mysqli_prepare($databaseConnection, $Query);
-    mysqli_stmt_bind_param($Statement, "i", $id);
-    mysqli_stmt_execute($Statement);
-    $result = mysqli_stmt_get_result($Statement);
-    if($result->num_rows >= 1){
-        return $result;
-    }
-    return false;
-
-}
 ?>

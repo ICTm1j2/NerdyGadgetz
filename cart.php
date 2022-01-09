@@ -14,6 +14,11 @@ if(isset($_GET['action'])){
 
 if(isset($_POST['updateQuantity']) && isset($_POST['updateQuantityProductId'])){
     $update = updateProduct($_POST['updateQuantityProductId'], $_POST['updateQuantity']);
+    echo getMaxAmount($_POST['updateQuantityProductId'], $databaseConnection);
+    if($_POST['updateQuantity'] > getMaxAmount($_POST['updateQuantityProductId'], $databaseConnection)){
+        $_POST['updateQuantity'] = getMaxAmount($_POST['updateQuantityProductId'], $databaseConnection);
+    }
+    echo $_POST['updateQuantity'];
     if($update == 1){
         $deleteMelding = "<div class='container container-sm'><div class='alert alert-info'>Het aantal is bijgewerkt.</div></div>";
     }else if ($update == 2){
@@ -57,9 +62,7 @@ foreach($cart as $id=>$amount){
         }
 
 
-        ?>
 
-        <?php
         $total = 0;
 
         ?>
@@ -157,5 +160,7 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
         return $verkoopPrijs;
     }
 }
+
+
 include "footer.php";
 ?>

@@ -6,6 +6,7 @@ include "accountfuncties.php";
 include "orderfuncties.php";
 include "reviewfuncties.php";
 $databaseConnection = connectToDatabase();
+$databaseConnection_admin = connectToDatabase_admin();
 
 $termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 ?>

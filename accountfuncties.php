@@ -1,7 +1,7 @@
 <?php
 
 function createPerson($connection, $firstName, $lastName, $email, $password, $streetName, $houseNumber, $phoneNumber, $city, $zipCode) {
-    $statement = mysqli_prepare($connection, "INSERT INTO people (FullName, PreferredName, SearchName, IsPermittedToLogon, LogonName, HashedPassword, PhoneNumber, EmailAddress, ValidFrom, ValidTo, LastEditedBy) 
+    $statement = mysqli_prepare($connection, "INSERT INTO people_gebruiker (FullName, PreferredName, SearchName, IsPermittedToLogon, LogonName, HashedPassword, PhoneNumber, EmailAddress, ValidFrom, ValidTo, LastEditedBy) 
                                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, now(), ?, ?);");
     $name = $firstName . " " . $lastName;
     $searchName = $firstName . " " . $name;
@@ -25,7 +25,7 @@ function createPerson($connection, $firstName, $lastName, $email, $password, $st
 }
 
 function createCustomer($connection, $peopleId, $name, $date, $phoneNumber, $address, $zipCode, $validto){
-    $statement = mysqli_prepare($connection, "INSERT INTO customers (CustomerName, PrimaryContactPersonID, AccountOpenedDate, PhoneNumber, DeliveryAddressLine1, DeliveryPostalCode, PostalAddressLine1, PostalPostalCode, ValidFrom, ValidTo) 
+    $statement = mysqli_prepare($connection, "INSERT INTO customers_gebruiker (CustomerName, PrimaryContactPersonID, AccountOpenedDate, PhoneNumber, DeliveryAddressLine1, DeliveryPostalCode, PostalAddressLine1, PostalPostalCode, ValidFrom, ValidTo) 
                                                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, now(), ?);");
     mysqli_stmt_bind_param($statement, 'sisssssss', $name, $peopleId, $date, $phoneNumber, $address, $zipCode, $address, $zipCode, $validto);
     mysqli_stmt_execute($statement);
@@ -33,7 +33,7 @@ function createCustomer($connection, $peopleId, $name, $date, $phoneNumber, $add
 }
 
 function createCustomerGetId($connection, $name, $date, $phoneNumber, $address, $zipCode, $validto){
-    $statement = mysqli_prepare($connection, "INSERT INTO customers (CustomerName, PrimaryContactPersonID, AccountOpenedDate, PhoneNumber, DeliveryAddressLine1, DeliveryPostalCode, PostalAddressLine1, PostalPostalCode, ValidFrom, ValidTo) 
+    $statement = mysqli_prepare($connection, "INSERT INTO customers_gebruiker (CustomerName, PrimaryContactPersonID, AccountOpenedDate, PhoneNumber, DeliveryAddressLine1, DeliveryPostalCode, PostalAddressLine1, PostalPostalCode, ValidFrom, ValidTo) 
                                                         VALUES (?, null, ?, ?, ?, ?, ?, ?, now(), ?);");
     mysqli_stmt_bind_param($statement, 'ssssssss', $name, $date, $phoneNumber, $address, $zipCode, $address, $zipCode, $validto);
     mysqli_stmt_execute($statement);
@@ -44,14 +44,14 @@ function createCustomerGetId($connection, $name, $date, $phoneNumber, $address, 
 }
 
 function checkDetails($connection, $username, $password){
-    $statement = mysqli_prepare($connection, "SELECT * FROM people WHERE LogonName = ? AND HashedPassword = ?");
+    $statement = mysqli_prepare($connection, "SELECT * FROM people_gebruiker WHERE LogonName = ? AND HashedPassword = ?");
     mysqli_stmt_bind_param($statement, 'ss', $username, $password);
     mysqli_stmt_execute($statement);
     return mysqli_stmt_get_result($statement);
 }
 
 function getFirstname($connection, $klantId){
-    $statement = mysqli_prepare($connection, "SELECT PreferredName FROM people WHERE PersonID = ? LIMIT 0,1");
+    $statement = mysqli_prepare($connection, "SELECT PreferredName FROM people_gebruiker WHERE PersonID = ? LIMIT 0,1");
     mysqli_stmt_bind_param($statement, 'i', $klantId);
     mysqli_stmt_execute($statement);
     $result =  mysqli_stmt_get_result($statement);
@@ -63,7 +63,7 @@ function getFirstname($connection, $klantId){
 }
 
 function getEmail($connection, $klantId){
-    $statement = mysqli_prepare($connection, "SELECT LogonName FROM people WHERE PersonID = ? LIMIT 0,1");
+    $statement = mysqli_prepare($connection, "SELECT LogonName FROM people_gebruiker WHERE PersonID = ? LIMIT 0,1");
     mysqli_stmt_bind_param($statement, 'i', $klantId);
     mysqli_stmt_execute($statement);
     $result =  mysqli_stmt_get_result($statement);
@@ -86,7 +86,7 @@ function getAantalInWinkelmand($cart){
 }
 
 function getCustomerIdFromAccount($connection, $PersonID){
-    $statement = mysqli_prepare($connection, "SELECT CustomerID FROM Customers WHERE PrimaryContactPersonID = ?;");
+    $statement = mysqli_prepare($connection, "SELECT CustomerID FROM Customers_gebruiker WHERE PrimaryContactPersonID = ?;");
     mysqli_stmt_bind_param($statement, 'i', $PersonID);
     mysqli_stmt_execute($statement);
     $result = mysqli_stmt_get_result($statement);
@@ -98,7 +98,7 @@ function getCustomerIdFromAccount($connection, $PersonID){
 }
 
 function getCustomerDetailsFromPerson($connection, $klantId){
-    $statement = mysqli_prepare($connection, "SELECT CustomerName, PhoneNumber, DeliveryAddressLine1, DeliveryPostalCode FROM Customers WHERE PrimaryContactPersonID = ?;");
+    $statement = mysqli_prepare($connection, "SELECT CustomerName, PhoneNumber, DeliveryAddressLine1, DeliveryPostalCode FROM Customers_gebruiker WHERE PrimaryContactPersonID = ?;");
     mysqli_stmt_bind_param($statement, 'i', $klantId);
     mysqli_stmt_execute($statement);
     $result =  mysqli_stmt_get_result($statement);
@@ -110,7 +110,7 @@ function getCustomerDetailsFromPerson($connection, $klantId){
 }
 
 function getAccountDetails($connection, $klantid){
-    $statement = mysqli_prepare($connection, "SELECT P.PersonID, P.FullName, P.LogonName, P.PhoneNumber, P.ValidFrom, C.DeliveryAddressLine1, C.DeliveryPostalCode FROM People P JOIN Customers C ON P.PersonID = C.PrimaryContactPersonID
+    $statement = mysqli_prepare($connection, "SELECT P.PersonID, P.FullName, P.LogonName, P.PhoneNumber, P.ValidFrom, C.DeliveryAddressLine1, C.DeliveryPostalCode FROM People_gebruiker P JOIN Customers_gebruiker C ON P.PersonID = C.PrimaryContactPersonID
                 WHERE P.PersonID = ?");
     mysqli_stmt_bind_param($statement, 'i', $klantid);
     mysqli_stmt_execute($statement);
@@ -124,12 +124,12 @@ function getAccountDetails($connection, $klantid){
 }
 
 function changeDetails($connection, $klantid, $email, $name, $phonenumber, $address, $zipcode){
-    $statement = mysqli_prepare($connection, "UPDATE Customers SET CustomerName = ?, PhoneNumber = ?, DeliveryAddressLine1 = ?, DeliveryPostalCode = ?, PostalAddressLine1 = ?, PostalPostalCode = ?
+    $statement = mysqli_prepare($connection, "UPDATE Customers_gebruiker SET CustomerName = ?, PhoneNumber = ?, DeliveryAddressLine1 = ?, DeliveryPostalCode = ?, PostalAddressLine1 = ?, PostalPostalCode = ?
                                                     WHERE PrimaryContactPersonID = ?;");
     mysqli_stmt_bind_param($statement, 'ssssssi', $name, $phonenumber, $address, $zipcode, $address, $zipcode, $klantid);
     mysqli_stmt_execute($statement);
     if(mysqli_affected_rows($connection) == 1){
-        $statement = mysqli_prepare($connection, "UPDATE People SET FullName = ?, PhoneNumber = ?, EmailAddress = ?
+        $statement = mysqli_prepare($connection, "UPDATE People_gebruiker SET FullName = ?, PhoneNumber = ?, EmailAddress = ?
                     WHERE PersonID = ?;");
         mysqli_stmt_bind_param($statement, 'sssi', $name, $phonenumber, $email, $klantid);
         mysqli_stmt_execute($statement);
@@ -141,14 +141,14 @@ function changeDetails($connection, $klantid, $email, $name, $phonenumber, $addr
 }
 
 function changePassword($connection, $klantid, $oldpassword, $newpassword){
-    $statement = mysqli_prepare($connection, "SELECT HashedPassword FROM People WHERE PersonID = ?");
+    $statement = mysqli_prepare($connection, "SELECT HashedPassword FROM People_gebruiker WHERE PersonID = ?");
     mysqli_stmt_bind_param($statement, 'i', $klantid);
     mysqli_stmt_execute($statement);
     $result = mysqli_stmt_get_result($statement);
     if($result->num_rows == 1){
         if($result->fetch_row()[0] == $oldpassword){
             // ga verder met het wachtwoord aanpassen
-            $statement = mysqli_prepare($connection, "UPDATE People SET HashedPassword = ? WHERE PersonID = ?");
+            $statement = mysqli_prepare($connection, "UPDATE People_gebruiker SET HashedPassword = ? WHERE PersonID = ?");
             mysqli_stmt_bind_param($statement, 'si', $newpassword, $klantid);
             mysqli_stmt_execute($statement);
             if(mysqli_affected_rows($connection) == 1){
@@ -162,7 +162,7 @@ function changePassword($connection, $klantid, $oldpassword, $newpassword){
 
 function getOrdersFromAccount($connection, $klantid){
     $customer = getCustomerIdFromAccount($connection, $klantid);
-    $statement = mysqli_prepare($connection, "SELECT OrderID, OrderDate FROM orders WHERE CustomerID = ? ORDER BY OrderID DESC;");
+    $statement = mysqli_prepare($connection, "SELECT OrderID, OrderDate FROM orders_gebruiker WHERE CustomerID = ? ORDER BY OrderID DESC;");
     mysqli_stmt_bind_param($statement, 'i', $customer);
     mysqli_stmt_execute($statement);
     $result = mysqli_stmt_get_result($statement);

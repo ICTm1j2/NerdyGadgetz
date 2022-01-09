@@ -125,12 +125,12 @@ if ($CategoryID == "") {
                 SELECT avg(RE.Stars) 'Stars', SI.StockItemID, SI.StockItemName, SI.MarketingComments, TaxRate, RecommendedRetailPrice, ROUND(TaxRate * RecommendedRetailPrice / 100 + RecommendedRetailPrice,2) as SellPrice,
                 QuantityOnHand,
                 (SELECT ImagePath
-                FROM stockitemimages
+                FROM stockitemimages_gebruiker
                 WHERE StockItemID = SI.StockItemID LIMIT 1) as ImagePath,
-                (SELECT ImagePath FROM stockgroups JOIN stockitemstockgroups USING(StockGroupID) WHERE StockItemID = SI.StockItemID LIMIT 1) as BackupImagePath
-                FROM stockitems SI
-                JOIN stockitemholdings SIH USING(stockitemid)
-                LEFT JOIN reviews RE USING (stockitemid)
+                (SELECT ImagePath FROM stockgroups_gebruiker JOIN stockitemstockgroups_gebruiker USING(StockGroupID) WHERE StockItemID = SI.StockItemID LIMIT 1) as BackupImagePath
+                FROM stockitems_gebruiker SI
+                JOIN stockitemholdings_gebruiker SIH USING(stockitemid)
+                LEFT JOIN reviews_gebruiker RE USING (stockitemid)
                 " . $queryBuildResult . "
                 GROUP BY StockItemID
                 ORDER BY " . $Sort . "
@@ -145,7 +145,7 @@ if ($CategoryID == "") {
 
     $Query = "
             SELECT count(*)
-            FROM stockitems SI
+            FROM stockitems_gebruiker SI
             $queryBuildResult";
     $Statement = mysqli_prepare($databaseConnection, $Query);
     mysqli_stmt_execute($Statement);
@@ -161,14 +161,14 @@ if ($CategoryID !== "") {
            SELECT avg(RE.Stars) 'Stars', SI.StockItemID, SI.StockItemName, SI.MarketingComments, TaxRate, RecommendedRetailPrice,
            ROUND(SI.TaxRate * SI.RecommendedRetailPrice / 100 + SI.RecommendedRetailPrice,2) as SellPrice,
            QuantityOnHand,
-           (SELECT ImagePath FROM stockitemimages WHERE StockItemID = SI.StockItemID LIMIT 1) as ImagePath,
-           (SELECT ImagePath FROM stockgroups JOIN stockitemstockgroups USING(StockGroupID) WHERE StockItemID = SI.StockItemID LIMIT 1) as BackupImagePath
-           FROM stockitems SI
-           JOIN stockitemholdings SIH USING(stockitemid)
-           JOIN stockitemstockgroups USING(StockItemID)
-           JOIN stockgroups ON stockitemstockgroups.StockGroupID = stockgroups.StockGroupID
-           LEFT JOIN reviews RE USING (stockitemid)
-           WHERE " . $queryBuildResult . " ? IN (SELECT StockGroupID from stockitemstockgroups WHERE StockItemID = SI.StockItemID)
+           (SELECT ImagePath FROM stockitemimages_gebruiker WHERE StockItemID = SI.StockItemID LIMIT 1) as ImagePath,
+           (SELECT ImagePath FROM stockgroups_gebruiker JOIN stockitemstockgroups_gebruiker USING(StockGroupID) WHERE StockItemID = SI.StockItemID LIMIT 1) as BackupImagePath
+           FROM stockitems_gebruiker SI
+           JOIN stockitemholdings_gebruiker SIH USING(stockitemid)
+           JOIN stockitemstockgroups_gebruiker USING(StockItemID)
+           JOIN stockgroups_gebruiker ON stockitemstockgroups_gebruiker.StockGroupID = stockgroups_gebruiker.StockGroupID
+           LEFT JOIN reviews_gebruiker RE USING (stockitemid)
+           WHERE " . $queryBuildResult . " ? IN (SELECT StockGroupID from stockitemstockgroups_gebruiker WHERE StockItemID = SI.StockItemID)
            GROUP BY StockItemID
            ORDER BY " . $Sort . "
            LIMIT ? OFFSET ?";
@@ -181,8 +181,8 @@ if ($CategoryID !== "") {
 
     $Query = "
                 SELECT count(*)
-                FROM stockitems SI
-                WHERE " . $queryBuildResult . " ? IN (SELECT SS.StockGroupID from stockitemstockgroups SS WHERE SS.StockItemID = SI.StockItemID)";
+                FROM stockitems_gebruiker SI
+                WHERE " . $queryBuildResult . " ? IN (SELECT SS.StockGroupID from stockitemstockgroups_gebruiker SS WHERE SS.StockItemID = SI.StockItemID)";
     $Statement = mysqli_prepare($databaseConnection, $Query);
     mysqli_stmt_bind_param($Statement, "i", $CategoryID);
     mysqli_stmt_execute($Statement);

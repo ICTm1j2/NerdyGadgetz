@@ -6,6 +6,25 @@ function connectToDatabase() {
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // Set MySQLi to throw exceptions
     try {
+        $Connection = mysqli_connect("localhost", "webshopgebruiker", "gebruiker", "nerdygadgets");
+        mysqli_set_charset($Connection, 'latin1');
+        $DatabaseAvailable = true;
+    } catch (mysqli_sql_exception $e) {
+        $DatabaseAvailable = false;
+    }
+    if (!$DatabaseAvailable) {
+        ?><h2>Website wordt op dit moment onderhouden.</h2><?php
+        die();
+    }
+
+    return $Connection;
+}
+
+function connectToDatabase_admin() {
+    $Connection = null;
+
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // Set MySQLi to throw exceptions
+    try {
         $Connection = mysqli_connect("localhost", "root", "", "nerdygadgets");
         mysqli_set_charset($Connection, 'latin1');
         $DatabaseAvailable = true;
@@ -23,10 +42,10 @@ function connectToDatabase() {
 function getHeaderStockGroups($databaseConnection) {
     $Query = "
                 SELECT StockGroupID, StockGroupName, ImagePath
-                FROM stockgroups 
+                FROM stockgroups_gebruiker 
                 WHERE StockGroupID IN (
                                         SELECT StockGroupID 
-                                        FROM stockitemstockgroups
+                                        FROM stockitemstockgroups_gebruiker
                                         ) AND ImagePath IS NOT NULL
                 ORDER BY StockGroupID ASC";
     $Statement = mysqli_prepare($databaseConnection, $Query);
@@ -38,10 +57,10 @@ function getHeaderStockGroups($databaseConnection) {
 function getStockGroups($databaseConnection) {
     $Query = "
             SELECT StockGroupID, StockGroupName, ImagePath
-            FROM stockgroups 
+            FROM stockgroups_gebruiker 
             WHERE StockGroupID IN (
                                     SELECT StockGroupID 
-                                    FROM stockitemstockgroups
+                                    FROM stockitemstockgroups_gebruiker
                                     ) AND ImagePath IS NOT NULL
             ORDER BY StockGroupID ASC";
     $Statement = mysqli_prepare($databaseConnection, $Query);
@@ -63,11 +82,11 @@ function getStockItem($id, $databaseConnection) {
             CONCAT('Voorraad: ',QuantityOnHand)AS QuantityOnHand,
             SearchDetails, 
             (CASE WHEN (RecommendedRetailPrice*(1+(TaxRate/100))) > 50 THEN 0 ELSE 6.95 END) AS SendCosts, MarketingComments, CustomFields, SI.Video,
-            (SELECT ImagePath FROM stockgroups JOIN stockitemstockgroups USING(StockGroupID) WHERE StockItemID = SI.StockItemID LIMIT 1) as BackupImagePath   
-            FROM stockitems SI 
-            JOIN stockitemholdings SIH USING(stockitemid)
-            JOIN stockitemstockgroups ON SI.StockItemID = stockitemstockgroups.StockItemID
-            JOIN stockgroups USING(StockGroupID)
+            (SELECT ImagePath FROM stockgroups_gebruiker JOIN stockitemstockgroups_gebruiker USING(StockGroupID) WHERE StockItemID = SI.StockItemID LIMIT 1) as BackupImagePath   
+            FROM stockitems_gebruiker SI 
+            JOIN stockitemholdings_gebruiker SIH USING(stockitemid)
+            JOIN stockitemstockgroups_gebruiker ON SI.StockItemID = stockitemstockgroups_gebruiker.StockItemID
+            JOIN stockgroups_gebruiker USING(StockGroupID)
             WHERE SI.stockitemid = ?
             GROUP BY StockItemID";
 
@@ -86,7 +105,7 @@ function getStockItemImage($id, $databaseConnection) {
 
     $Query = "
                 SELECT ImagePath
-                FROM stockitemimages 
+                FROM stockitemimages_gebruiker 
                 WHERE StockItemID = ?";
 
     $Statement = mysqli_prepare($databaseConnection, $Query);
@@ -104,7 +123,7 @@ function getTemperature ($databaseConnection) {
 
     $Query = "
                 SELECT temperature
-                FROM coldroomtemperatures
+                FROM coldroomtemperatures_gebruiker
                 WHERE ColdRoomTemperatureID = (
                 SELECT MAX(ColdRoomTemperatureID)
                 FROM coldroomtemperatures)";
@@ -123,7 +142,7 @@ function getIsChillerStock($id, $databaseConnection)
 
     $Query = "
                 SELECT IsChillerStock
-                FROM stockitems 
+                FROM stockitems_gebruiker 
                 WHERE StockItemID = ?";
 
     $Statement = mysqli_prepare($databaseConnection, $Query);
@@ -136,39 +155,39 @@ function getIsChillerStock($id, $databaseConnection)
     return $result->fetch_row()[0];
 }
 
-function getTemperatureCount ($databaseConnection) {
+function getTemperatureCount ($databaseConnection_admin) {
 
     $Query = "
                 SELECT count(*)
-                FROM coldroomtemperatures";
+                FROM coldroomtemperatures_gebruiker";
 
-    $Statement = mysqli_prepare($databaseConnection, $Query);
+    $Statement = mysqli_prepare($databaseConnection_admin, $Query);
     mysqli_stmt_execute($Statement);
     $result = mysqli_stmt_get_result($Statement);
     return $result->fetch_row()[0];
 }
 
-function archiveTemperature ($databaseConnection) {
+function archiveTemperature ($databaseConnection_admin) {
 
     $Query = "
                 INSERT INTO coldroomtemperatures_archive SELECT * FROM coldroomtemperatures WHERE ColdRoomTemperatureID = (SELECT min(ColdRoomTemperatureID) FROM coldroomtemperatures);";
 
-    $Statement = mysqli_prepare($databaseConnection, $Query);
+    $Statement = mysqli_prepare($databaseConnection_admin, $Query);
     mysqli_stmt_execute($Statement);
-    if (mysqli_affected_rows($databaseConnection) > 0) {
-        deleteArchivedTemperature($databaseConnection);
+    if (mysqli_affected_rows($databaseConnection_admin) > 0) {
+        deleteArchivedTemperature($databaseConnection_admin);
     } else {
         return false;
     }
 }
 
-function deleteArchivedTemperature ($databaseConnection)
+function deleteArchivedTemperature ($databaseConnection_admin)
 {
 
     $Query = "
                 DELETE FROM coldroomtemperatures WHERE ColdRoomTemperatureID = (SELECT min(ColdRoomTemperatureID) FROM coldroomtemperatures);";
 
-    $Statement = mysqli_prepare($databaseConnection, $Query);
+    $Statement = mysqli_prepare($databaseConnection_admin, $Query);
     mysqli_stmt_execute($Statement);
 }
 

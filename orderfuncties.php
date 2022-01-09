@@ -22,7 +22,7 @@ function placeOrder($connection, $cart, $CustomerID){
 
 function makeOrder($connection, $CustomerID){
     $date = date("Y-m-d");
-    $statement = mysqli_prepare($connection, "INSERT INTO orders (CustomerID, OrderDate) 
+    $statement = mysqli_prepare($connection, "INSERT INTO orders_gebruiker (CustomerID, OrderDate) 
                                                         VALUES (?, ?);");
     mysqli_stmt_bind_param($statement, 'is', $CustomerID, $date);
     mysqli_stmt_execute($statement);
@@ -35,7 +35,7 @@ function makeOrder($connection, $CustomerID){
 function fillOrderLines($connection, $cart, $orderId){
     $error = 0;
     foreach ($cart as $item=>$quantity){
-        $statement = mysqli_prepare($connection, "INSERT INTO orderlines (OrderID, StockItemID, Quantity, PickedQuantity) 
+        $statement = mysqli_prepare($connection, "INSERT INTO orderlines_gebruiker (OrderID, StockItemID, Quantity, PickedQuantity) 
                                                         VALUES (?, ?, ?, ?);");
         mysqli_stmt_bind_param($statement, 'iiii', $orderId, $item, $quantity, $quantity);
         mysqli_stmt_execute($statement);
@@ -64,7 +64,7 @@ function processStock($connection, $cart){
 }
 
 function getStock($connection, $itemId){
-    $statement = mysqli_prepare($connection, "SELECT QuantityOnHand FROM stockitemholdings WHERE StockItemID = ?;");
+    $statement = mysqli_prepare($connection, "SELECT QuantityOnHand FROM stockitemholdings_gebruiker WHERE StockItemID = ?;");
     mysqli_stmt_bind_param($statement, 'i', $itemId);
     mysqli_stmt_execute($statement);
     $result =  mysqli_stmt_get_result($statement);
@@ -81,7 +81,7 @@ function lowerStock($connection, $itemId, $lowerBy) {
         return 0;
     }else{
         $newStock = $current - $lowerBy;
-        $statement = mysqli_prepare($connection, "UPDATE stockitemholdings SET QuantityOnHand = ? WHERE StockItemID = ?");
+        $statement = mysqli_prepare($connection, "UPDATE stockitemholdings_gebruiker SET QuantityOnHand = ? WHERE StockItemID = ?");
         mysqli_stmt_bind_param($statement, 'ii', $newStock, $itemId);
         mysqli_stmt_execute($statement);
         return mysqli_stmt_affected_rows($statement) == 1;
@@ -89,7 +89,7 @@ function lowerStock($connection, $itemId, $lowerBy) {
 }
 
 function getRandomProducts ($databaseConnection) {
-    $Query = "SELECT StockItemID FROM stockitems ORDER BY RAND() LIMIT 3;";
+    $Query = "SELECT StockItemID FROM stockitems_gebruiker ORDER BY RAND() LIMIT 3;";
     $Statement = mysqli_prepare($databaseConnection, $Query);
     mysqli_stmt_execute($Statement);
     $result = mysqli_stmt_get_result($Statement);

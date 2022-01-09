@@ -13,12 +13,11 @@ if(isset($_GET['action'])){
 }
 
 if(isset($_POST['updateQuantity']) && isset($_POST['updateQuantityProductId'])){
-    $update = updateProduct($_POST['updateQuantityProductId'], $_POST['updateQuantity']);
-    echo getMaxAmount($_POST['updateQuantityProductId'], $databaseConnection);
-    if($_POST['updateQuantity'] > getMaxAmount($_POST['updateQuantityProductId'], $databaseConnection)){
-        $_POST['updateQuantity'] = getMaxAmount($_POST['updateQuantityProductId'], $databaseConnection);
+    $maxAmount = getMaxAmount($databaseConnection, $_POST['updateQuantityProductId']);
+    if($_POST['updateQuantity'] > $maxAmount){
+        $_POST['updateQuantity'] = $maxAmount;
     }
-    echo $_POST['updateQuantity'];
+    $update = updateProduct($_POST['updateQuantityProductId'], $_POST['updateQuantity']);
     if($update == 1){
         $deleteMelding = "<div class='container container-sm'><div class='alert alert-info'>Het aantal is bijgewerkt.</div></div>";
     }else if ($update == 2){

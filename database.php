@@ -98,22 +98,6 @@ function getStockItemImage($id, $databaseConnection) {
     return $R;
 }
 
-function getMaxAmount($id, $databaseConnection) {
-
-    $Query = "
-                SELECT QuantityOnHand
-                FROM stockitemholdings 
-                WHERE StockItemID = ?";
-
-    $Statement = mysqli_prepare($databaseConnection, $Query);
-    mysqli_stmt_bind_param($Statement, "i", $id);
-    mysqli_stmt_execute($Statement);
-    $result = mysqli_stmt_get_result($Statement);
-    $MaxQuantity = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-    return $MaxQuantity;
-}
-
 $dbTemp = mysqli_connect("localhost", "root", "", "nerdygadgets");
 
 function getTemperature ($databaseConnection) {

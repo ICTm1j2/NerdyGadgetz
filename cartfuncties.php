@@ -51,3 +51,15 @@ function updateProduct($stockItemID, $quantity){
         return 0;
     }
 }
+
+function getMaxAmount($connection, $stockitemid) {
+    $Query = "    SELECT QuantityOnHand
+                FROM stockitemholdings 
+                WHERE StockItemID = ?";
+    $Statement = mysqli_prepare($connection, $Query);
+    mysqli_stmt_bind_param($Statement, "i", $stockitemid);
+    mysqli_stmt_execute($Statement);
+    $result = mysqli_stmt_get_result($Statement);
+
+    return $result->fetch_row()[0];
+}

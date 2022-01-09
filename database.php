@@ -126,7 +126,7 @@ function getTemperature ($databaseConnection) {
                 FROM coldroomtemperatures_gebruiker
                 WHERE ColdRoomTemperatureID = (
                 SELECT MAX(ColdRoomTemperatureID)
-                FROM coldroomtemperatures)";
+                FROM coldroomtemperatures_gebruiker)";
 
     $Statement = mysqli_prepare($databaseConnection, $Query);
     mysqli_stmt_execute($Statement);

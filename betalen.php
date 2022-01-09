@@ -73,15 +73,6 @@ if(isset($_POST['betaal'])){
                 print(" Per stuk (incl. BTW)");
                 ?></h6>
 
-
-
-            <h1 class="StockItemPriceText"><?php
-                if($item['SellPrice'] == -1){
-                    print("Niet leverbaar");
-                }else{
-                    print("</h1> <h6>Subtotaal (incl. BTW) </h6>");
-                }
-                ?>
         </div>
 
     <?php }} ?>

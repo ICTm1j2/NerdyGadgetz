@@ -54,7 +54,7 @@ function updateProduct($stockItemID, $quantity){
 
 function getMaxAmount($connection, $stockitemid) {
     $Query = "    SELECT QuantityOnHand
-                FROM stockitemholdings 
+                FROM stockitemholdings_gebruiker 
                 WHERE StockItemID = ?";
     $Statement = mysqli_prepare($connection, $Query);
     mysqli_stmt_bind_param($Statement, "i", $stockitemid);
@@ -67,7 +67,7 @@ function getMaxAmount($connection, $stockitemid) {
 //check of de couponcode in de databse staat, als die er in staat returned die het percentage aan korting, zo niet dan returned die null.
 function checkCoupon($connection, $coupon){
     $statement = mysqli_prepare($connection, "SELECT Percentage 
-                                                    FROM coupons 
+                                                    FROM coupons_gebruiker 
                                                     WHERE Coupon = ?");
     mysqli_stmt_bind_param($statement, 's', $coupon);
     mysqli_stmt_execute($statement);

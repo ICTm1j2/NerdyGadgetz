@@ -100,12 +100,21 @@ if (isset($_GET["id"])) {
             $rating = floor($rating);
             ?>
             <img src="Public/Img/<?php print($rating); ?>_Out_Of_5.png" style="max-width: 100px; max-height: 100px;">
+            <?php
+            if(isset($_SESSION['login'])){
+                print("<a role=\"button\" class=\"btn btn-sm btn-primary text-light\" href=\"review.php?item=" . $StockItem['StockItemID'] . "\">Plaats een review</a>");
+            }
+
+            $reviews = getReviews($StockItem['StockItemID'], $databaseConnection);
+
+            while($row = mysqli_fetch_array($reviews)){
+                print("<br><strong>".$row['PreferredName'].":</strong> " . $row['Review'] . " (".$row['Stars']."/5)");
+            }
+            ?>
             <br>
             <?php
             if (filter_var($StockItem['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT) < 1000) {
                 print ("Er zijn nog minder dan 1000 stuks van dit product, wees er snel bij!");
-            } else {
-                print ("dit product is voldoende op voorraad");
             }
             ?>
             <div class="QuantityText"><?php

@@ -58,7 +58,7 @@ if(isset($_POST['changedetails'])){
                                     <h5 class="card-title">Mijn Orders</h5>
                                     <p class="card-text"><?php
                                         if($orders == null) {
-                                            print("<div class='alert alert-danger'>Je hebt nog geen orders geplaats.</div>");
+                                            print("<div class='alert alert-danger'>Je hebt nog geen orders geplaatst.</div>");
                                         }else {
                                             while ($row = mysqli_fetch_array($orders)){
 

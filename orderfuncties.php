@@ -2,14 +2,20 @@
 
 function placeOrder($connection, $cart, $CustomerID){
     if($cart == null) return null;
+    mysqli_query($connection, "START TRANSACTION;");
     $orderId = makeOrder($connection, $CustomerID);
-    if($orderId == null) return null;
+    if($orderId == null) {
+        mysqli_query($connection, "ROLLBACK;");
+        return null;
+    }
 
     if(fillOrderLines($connection, $cart, $orderId)){
         if(processStock($connection, $cart)){
+            mysqli_query($connection, "COMMIT;");
             return $orderId;
         }
     }
+    mysqli_query($connection, "ROLLBACK");
     return null;
 }
 

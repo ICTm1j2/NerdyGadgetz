@@ -176,9 +176,9 @@ if(isset($_POST['couponCode'])){
                             ?>
 
                             <form method="post">
-                                <input name="couponCode" type="text" class="form-control" id="couponCode" placeholder="kortingscode" >
+                                <input name="couponCode" type="text" class="form-control" id="couponCode" placeholder="Kortingscode" >
                                 <br>
-                                <input value="toepassen" type="submit" class="btn btn-primary winkelmand-toevoegen-knop text-light">
+                                <input value="Toepassen" type="submit" class="btn btn-primary winkelmand-toevoegen-knop text-light">
                                 <br><br><br>
                             </form>
 

@@ -100,6 +100,14 @@ if (isset($_GET["id"])) {
             $rating = floor($rating);
             ?>
             <img src="Public/Img/<?php print($rating); ?>_Out_Of_5.png" style="max-width: 100px; max-height: 100px;">
+            <br>
+            <?php
+            if (filter_var($StockItem['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT) < 1000) {
+                print ("Er zijn nog minder dan 1000 stuks van dit product, wees er snel bij!");
+            } else {
+                print ("dit product is voldoende op voorraad");
+            }
+            ?>
             <div class="QuantityText"><?php
                 if(!($StockItem['SellPrice'] < 0)){
                     print $StockItem['QuantityOnHand'];

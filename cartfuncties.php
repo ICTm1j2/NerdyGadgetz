@@ -63,3 +63,18 @@ function getMaxAmount($connection, $stockitemid) {
 
     return $result->fetch_row()[0];
 }
+
+//check of de couponcode in de databse staat, als die er in staat returned die het percentage aan korting, zo niet dan returned die null.
+function checkCoupon($connection, $coupon){
+    $statement = mysqli_prepare($connection, "SELECT Percentage 
+                                                    FROM coupons 
+                                                    WHERE Coupon = ?");
+    mysqli_stmt_bind_param($statement, 's', $coupon);
+    mysqli_stmt_execute($statement);
+    $result =  mysqli_stmt_get_result($statement);
+    if($result->num_rows == 1){
+        return $result->fetch_row()[0];
+    }else{
+        return null;
+    }
+}

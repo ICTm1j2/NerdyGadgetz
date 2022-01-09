@@ -39,6 +39,26 @@ foreach($cart as $id=>$amount){
     $amounts[$id] = $amount;
 }
 
+$discount = 0;
+$discountPercentage = 0;
+
+if(isset($_POST['couponCode'])){
+    $coupon = trim($_POST['couponCode']);
+    (int)$result = checkCoupon($databaseConnection, $coupon);
+    $discountPercentage = $result;
+
+    if ($result == 0){
+        print("<div class='container container-sm'><div class='alert alert-danger'>De ingevoerde kortingscode is helaas niet geldig, probeer het opnieuw.</div></div>");
+        $discount = 0;
+    }
+    if ($result > 0){
+        print("<div class='container container-sm'><div class='alert alert-success'>De ingevoerde kortingscode is succesvol toegepast!</div></div>");
+        //zet de discount naar de factor die nog betaal moet worden, dus bijvoorbeeld 0,75.
+        $discount = (100 - $result) * 0.01;
+    }
+}
+
+
 ?>
     <!DOCTYPE html>
     <html lang="nl">
@@ -60,9 +80,8 @@ foreach($cart as $id=>$amount){
             print("<div class='container container-sm'><div class='alert alert-danger'>Je hebt nog niks in je winkelmand.</div></div>");
         }
 
-
-
         $total = 0;
+        $totalWithDiscount = 0;
 
         ?>
         <div id="ResultsArea" class="container container-sm">
@@ -117,17 +136,32 @@ foreach($cart as $id=>$amount){
                         <?php
                     }
 
-                    foreach($items as $item){
+                    foreach ($items as $item) {
                         $total = $total + $item['SellPrice'] * $amounts[$item['StockItemID']];
                     }
+
+                    foreach ($items as $item) {
+                        $totalWithDiscount = $totalWithDiscount + $item['SellPrice'] * $amounts[$item['StockItemID']];
+                        $totalWithDiscount = $totalWithDiscount * $discount;
+                    }
+
                     ?>
                 </div>
                 <div class="col-4">
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <h5 class="card-title">Totaal: <?php
-                                if(!(count($items) < 1)){
-                                    print(sprintf("€%.2f", $total));
+                                if ($discount == 0) {
+                                    if (!(count($items) < 1)) {
+                                        print(sprintf("€%.2f", $total));
+                                    }
+                                } elseif ($discount > 0) {
+                                    if (!(count($items) < 1)) {
+                                        print(sprintf("€%.2f", $total));
+                                        print("<br><br><small><i>De korting van ". $discountPercentage ."% is toegevoegd! </i></small><br>Nieuw totaal: ");
+                                        print(sprintf("€%.2f", $totalWithDiscount));
+
+                                    }
                                 }
                                 ?></h5>
                             <?php if($leeg) {print("<p class=\"card-text\">Er zit nog niks in je winkelmand.</p>");}?>
@@ -140,6 +174,14 @@ foreach($cart as $id=>$amount){
                                 print("");
                             }
                             ?>
+
+                            <form method="post">
+                                <input name="couponCode" type="text" class="form-control" id="couponCode" placeholder="kortingscode" >
+                                <br>
+                                <input value="toepassen" type="submit" class="btn btn-primary winkelmand-toevoegen-knop text-light">
+                                <br><br><br>
+                            </form>
+
                             <a href="afronden.php" class="btn btn-primary winkelmand-toevoegen-knop">Bestelling Afronden</a>
                         </div>
                     </div>

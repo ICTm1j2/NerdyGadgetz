@@ -107,8 +107,10 @@ if (isset($_GET["id"])) {
 
             $reviews = getReviews($StockItem['StockItemID'], $databaseConnection);
 
-            while($row = mysqli_fetch_array($reviews)){
-                print("<br><strong>".$row['PreferredName'].":</strong> " . $row['Review'] . " (".$row['Stars']."/5)");
+            if($reviews != null){
+                while($row = mysqli_fetch_array($reviews)){
+                    print("<br><strong>".$row['PreferredName'].":</strong> " . $row['Review'] . " (".$row['Stars']."/5)");
+                }
             }
             ?>
             <br>

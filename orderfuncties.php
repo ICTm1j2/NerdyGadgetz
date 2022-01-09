@@ -81,3 +81,12 @@ function lowerStock($connection, $itemId, $lowerBy) {
         return mysqli_stmt_affected_rows($statement) == 1;
     }
 }
+
+function getRandomProducts ($databaseConnection) {
+    $Query = "SELECT StockItemID FROM stockitems ORDER BY RAND() LIMIT 3;";
+    $Statement = mysqli_prepare($databaseConnection, $Query);
+    mysqli_stmt_execute($Statement);
+    $result = mysqli_stmt_get_result($Statement);
+    $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return $products;
+}

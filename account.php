@@ -113,7 +113,7 @@ if(isset($_POST['changedetails'])){
                                     </div>
                                     <div class="mb-3">
                                         <label for="inputEmail1" class="form-label">E-mailadres</label>
-                                        <input name="email" type="email" class="form-control" id="inputEmail1" placeholder="E-mailadres" value="<?php print($personalDetails[2]); ?>">
+                                        <input name="email" type="email" class="form-control" id="inputEmail1" placeholder="E-mailadres" value="<?php print($personalDetails[2]); ?>" disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="inputName1" class="form-label">Volledige Naam</label>

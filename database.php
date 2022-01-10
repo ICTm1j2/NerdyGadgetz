@@ -19,6 +19,7 @@ function connectToDatabase() {
 
     return $Connection;
 }
+// Deze functie maakt verbinding met de database als de webshopgebruiker user
 
 function connectToDatabase_admin() {
     $Connection = null;
@@ -38,6 +39,7 @@ function connectToDatabase_admin() {
 
     return $Connection;
 }
+// Deze functie maakt verbinding met de database als de ROOT user
 
 function getHeaderStockGroups($databaseConnection) {
     $Query = "
@@ -53,6 +55,7 @@ function getHeaderStockGroups($databaseConnection) {
     $HeaderStockGroups = mysqli_stmt_get_result($Statement);
     return $HeaderStockGroups;
 }
+// Deze functie haalt de verschillende categorien en plaatjes hiervan uit de database
 
 function getStockGroups($databaseConnection) {
     $Query = "
@@ -69,6 +72,7 @@ function getStockGroups($databaseConnection) {
     $StockGroups = mysqli_fetch_all($Result, MYSQLI_ASSOC);
     return $StockGroups;
 }
+// Deze functie haalt de verschillende categorien en plaatjes hiervan uit de database
 
 function getStockItem($id, $databaseConnection) {
     $Result = null;
@@ -100,6 +104,7 @@ function getStockItem($id, $databaseConnection) {
 
     return $Result;
 }
+//  Deze functie haalt alle informatie over een stockitem uit de database
 
 function getStockItemImage($id, $databaseConnection) {
 
@@ -116,6 +121,7 @@ function getStockItemImage($id, $databaseConnection) {
 
     return $R;
 }
+// Deze functie zoekt de juiste afbeelding bij een StockItem
 
 $dbTemp = mysqli_connect("localhost", "root", "", "nerdygadgets");
 
@@ -136,6 +142,7 @@ function getTemperature ($databaseConnection) {
     }
     return $result->fetch_row()[0];
 }
+// Deze functie haalt de meest recent gemeten temperatuur uit de database
 
 function getIsChillerStock($id, $databaseConnection)
 {
@@ -154,6 +161,7 @@ function getIsChillerStock($id, $databaseConnection)
     }
     return $result->fetch_row()[0];
 }
+// Deze functie kijkt of een StockItem gekoeld is of niet
 
 function getTemperatureCount ($databaseConnection_admin) {
 
@@ -166,6 +174,7 @@ function getTemperatureCount ($databaseConnection_admin) {
     $result = mysqli_stmt_get_result($Statement);
     return $result->fetch_row()[0];
 }
+// Deze functie telt het aantal gemeten temperaturen in de coldroomtemperatures tabel
 
 function archiveTemperature ($databaseConnection_admin) {
 
@@ -180,6 +189,7 @@ function archiveTemperature ($databaseConnection_admin) {
         return false;
     }
 }
+// Deze functie archiveert de oudste temperatuur in coldroomtemperatures
 
 function deleteArchivedTemperature ($databaseConnection_admin)
 {
@@ -190,5 +200,6 @@ function deleteArchivedTemperature ($databaseConnection_admin)
     $Statement = mysqli_prepare($databaseConnection_admin, $Query);
     mysqli_stmt_execute($Statement);
 }
+// Deze functie delete de gearchiveerde temperatuur
 
 ?>

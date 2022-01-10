@@ -1,7 +1,7 @@
 <!-- dit bestand bevat alle code voor het productoverzicht -->
 <?php
 include __DIR__ . "/header.php";
-
+//Dit zijn de standaard waarden waarmee de site zoekt
 $ReturnableResult = null;
 $Sort = "SellPrice";
 $SortName = "price_low_high";
@@ -9,12 +9,13 @@ $SortName = "price_low_high";
 $AmountOfPages = 0;
 $queryBuildResult = "";
 
-
+//dit zorgt ervoor voor als je op id zoekt je het alleen het bijbehorende product krijgt
 if (isset($_GET['category_id'])) {
     $CategoryID = $_GET['category_id'];
 } else {
     $CategoryID = "";
 }
+//Dit zorgt voor de hoeveelheid producten op een pagina
 if (isset($_GET['products_on_page'])) {
     $ProductsOnPage = $_GET['products_on_page'];
     $_SESSION['products_on_page'] = $_GET['products_on_page'];
@@ -24,6 +25,7 @@ if (isset($_GET['products_on_page'])) {
     $ProductsOnPage = 25;
     $_SESSION['products_on_page'] = 25;
 }
+//dit haalt het pagina nummer naar voren
 if (isset($_GET['page_number'])) {
     $PageNumber = $_GET['page_number'];
 } else {
@@ -32,7 +34,7 @@ if (isset($_GET['page_number'])) {
 
 // code deel 1 van User story: Zoeken producten
 // <voeg hier de code in waarin de zoekcriteria worden opgebouwd>
-
+//dit is de standaard zoek waarde
 $SearchString = "";
 
 if (isset($_GET['search_string'])) {
@@ -47,7 +49,7 @@ if (isset($_GET['sort'])) {
     $SortOnPage = "price_low_high";
     $_SESSION["sort"] = "price_low_high";
 }
-
+//dit stukje haalt meerdere opties naar voren met hoe je kunt zoeken
 switch ($SortOnPage) {
     case "price_high_low":
     {
@@ -85,6 +87,7 @@ switch ($SortOnPage) {
 }
 $searchValues = explode(" ", $SearchString);
 
+//dit deel zoekt op basis van de text die je hebt ingevuld
 $queryBuildResult = "";
 if ($SearchString != "") {
     for ($i = 0; $i < count($searchValues); $i++) {
@@ -120,7 +123,7 @@ if ($CategoryID == "") {
     if ($queryBuildResult != "") {
         $queryBuildResult = "WHERE " . $queryBuildResult;
     }
-
+//deze query haalt informatie naar voren die wordt gebruikt voor de informatie bij de producten
     $Query = "
                 SELECT avg(RE.Stars) 'Stars', SI.StockItemID, SI.StockItemName, SI.MarketingComments, TaxRate, RecommendedRetailPrice, ROUND(TaxRate * RecommendedRetailPrice / 100 + RecommendedRetailPrice,2) as SellPrice,
                 QuantityOnHand,
@@ -143,6 +146,7 @@ if ($CategoryID == "") {
     $ReturnableResult = mysqli_stmt_get_result($Statement);
     $ReturnableResult = mysqli_fetch_all($ReturnableResult, MYSQLI_ASSOC);
 
+//Dit telt de hoeveelheid items die de gebruiker heeft geselecteerd
     $Query = "
             SELECT count(*)
             FROM stockitems_gebruiker SI
@@ -156,6 +160,7 @@ if ($CategoryID == "") {
 // <einde van de code voor zoekresultaat>
 // einde deel 2 van User story: Zoeken producten
 
+//dit haalt nog meer informatie over de producten naar voren
 if ($CategoryID !== "") {
     $Query = "
            SELECT avg(RE.Stars) 'Stars', SI.StockItemID, SI.StockItemName, SI.MarketingComments, TaxRate, RecommendedRetailPrice,
@@ -195,6 +200,7 @@ if (isset($amount)) {
 }
 
 
+//dit laat zien hoeveel er op voorraad is of dat er genoeg is
 function getVoorraadTekst($actueleVoorraad) {
     if ($actueleVoorraad >= 1000) {
         return "Ruime voorraad beschikbaar.";
@@ -202,6 +208,7 @@ function getVoorraadTekst($actueleVoorraad) {
         return "Voorraad: $actueleVoorraad";
     }
 }
+//dit berekent de prijs
 function berekenVerkoopPrijs($adviesPrijs, $btw) {
     $verkoopPrijs = $btw * $adviesPrijs / 100 + $adviesPrijs;
     if (($verkoopPrijs) < 0) {
@@ -214,7 +221,7 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
 
 <!-- code deel 3 van User story: Zoeken producten : de html -->
 <!-- de zoekbalk links op de pagina  -->
-
+<?php //dit deel geeft laat de zoek balk zien en de manieren waarop je kunt zoeken ?>
 <div id="FilterFrame"><h4 class="FilterText"><i class="fas fa-filter"></i> Filteren </h4>
     <form>
         <div id="FilterOptions">
@@ -274,6 +281,7 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
 <!-- einde zoekresultaten die links van de zoekbalk staan -->
 <!-- einde code deel 3 van User story: Zoeken producten  -->
 
+<?php //dit stuk laat de producten zien en de informatie die erbij hoort?>
 <div id="ResultsArea" class="Browse">
     <?php
     if (isset($ReturnableResult) && count($ReturnableResult) > 0) {
@@ -339,6 +347,7 @@ function berekenVerkoopPrijs($adviesPrijs, $btw) {
 
             <!-- code deel 4 van User story: Zoeken producten  -->
 
+            <?php //dit deel zoekt op de waardes die zijn geselecteerd of ingevoerd ?>
             <input type="hidden" name="search_string" id="search_string"
                    value="<?php if (isset($_GET['search_string'])) {
                        print ($_GET['search_string']);

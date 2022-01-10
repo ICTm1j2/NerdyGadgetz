@@ -51,7 +51,7 @@ function fillOrderLines($connection, $cart, $orderId){
     } else return false;
 }
 
-//
+// Het aantal producten wordt bijgewerkt a.d.h.v. orderlines.
 function processStock($connection, $cart){
     $error = 0;
     foreach ($cart as $item=>$quantity){

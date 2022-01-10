@@ -7,14 +7,17 @@ if(isset($_GET['logout'])){
     unset($_SESSION['login']);
     print("<div class='alert alert-info'>Je bent nu uitgelogd.</div>");
 }
+// Hier wordt er gekeken of er uitgelogd wordt, als dit het geval is wordt de sessie login ge unset en krijg je een melding die zegt dat je bent uigelogd
 
 if(isset($_SESSION['login'])){
     $melding = 4;
 }
+// Als je bent ingelogd krijg je case 4 line: 46 te zien
 
 if(isset($_POST['email']) && isset($_POST['password'])){
     $email = trim($_POST['email']);
     $password = sha1(trim($_POST['password']) . "NERDY");
+// Hier wordt het ingevulde wachtwoord en email getrimt en gehashed
 
     $result = checkDetails($databaseConnection, $email, $password);
     if(!$result){
@@ -27,6 +30,8 @@ if(isset($_POST['email']) && isset($_POST['password'])){
         $melding = 3;
     }
 }
+// Het wachtwoord en email worden hier naar de database verzonden en geccontroleerd vervolgens wordt het resultaat terug gestuurt
+
 ?>
 <div class="container container-sm">
     <br><h1>Inloggen</h1>
@@ -45,6 +50,7 @@ if(isset($_POST['email']) && isset($_POST['password'])){
             header("Location: account.php");
             die("<div class='alert alert-warning'>Je bent al ingelogd. Klik <a href='inloggen.php?logout=true'>hier</a> om uit te loggen.</div>");
     }
+// Het teruggestuurde resultaat wordt hier gelinkt aan verschillende cases
 
     ?>
     <form method="post">
@@ -74,10 +80,13 @@ function printEmail(){
         return trim($_POST['email']);
     }else return null;
 }
+// Door deze functie blijft het email staan na een foute inlog poging
 
 function printPassword(){
     if(isset($_POST['password'])){
         return trim($_POST['password']);
     }else return null;
 }
+// Door deze functie blijft het email staan na een foute inlog poging
+
 ?>

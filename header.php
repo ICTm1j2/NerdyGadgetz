@@ -9,6 +9,7 @@ $databaseConnection = connectToDatabase();
 $databaseConnection_admin = connectToDatabase_admin();
 
 $termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+// Hier worden alle bestanden die nodig zijn voor de website geladen en wordt er verbinding gemaakt met de database
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,6 +62,7 @@ $termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
                     <?php
                 }
                 ?>
+<!--                Hier worden alle categorien uit de database gehaald en weergeven in de header-->
                 <li>
                     <a href="categories.php" class="HrefDecoration">Alle categorieën</a>
                 </li>
@@ -81,6 +83,7 @@ $termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
                     ?>
                 </a>
             </li>
+<!--            Hier wordt er gekeken of de cart sessie bestaat, als dit bestaat wordt het aantal items in je winkelmand weergeven naast het cart icoon-->
             <?php
             if(isset($_SESSION['login'])){
                 $gebruikersnaam = getFirstname($databaseConnection, $_SESSION['login']);
@@ -88,15 +91,14 @@ $termsOfService = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
                 <li>
                     <a href="account.php" class="HrefDecoration"><i class="fas fa-user search"></i> <?php print($gebruikersnaam); ?></a>
                 </li>
-            <?php
+<!--            --><?php //Hier wordt er gekeken of de gebruiker is ingelogd als deze is ingelogd wordt de gebruikersnaam weergeven naast het het account icoon, anders komt er inloggen te staan
             }else{
             ?>
             <li>
                 <a href="account.php" class="HrefDecoration"><i class="fas fa-user search"></i> Inloggen</a>
             </li>
-        <?php } ?>
+        <?php  } ?>
         </ul>
-
 <!-- einde code voor US3 zoeken -->
     </div>
     <div class="row" id="Content">

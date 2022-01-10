@@ -2,6 +2,7 @@
 include __DIR__ . "/header.php";
 include "cartfuncties.php";
 
+//als er een product wordt verwijderd, wordt een danger melding weergegeven.
 $deleteMelding = 0;
 if(isset($_GET['action'])){
     if($_GET['action'] == "delete" && isset($_GET['productid'])){
@@ -11,6 +12,8 @@ if(isset($_GET['action'])){
     }
 }
 
+//Na het bijwerken van het aantal van een product, wordt met updateProduct gekeken of het mogelijk is of niet. Deze functie
+//returned een waarde tussen 1 en 4. Vervolgens geeft de site hier een bijpassende melding bij
 if(isset($_POST['updateQuantity']) && isset($_POST['updateQuantityProductId'])){
     $maxAmount = getMaxAmount($databaseConnection, $_POST['updateQuantityProductId']);
     $update = updateProduct($_POST['updateQuantityProductId'], $_POST['updateQuantity'], $maxAmount);
@@ -29,6 +32,7 @@ $cart = getCart();
 $items = array();
 $amounts = array();
 
+//Van alle items in de cart en hoeveel van dat product wordt de ItemID en ItemImage uit de database gehaald. En de totaalprijs berekent
 foreach($cart as $id=>$amount){
     $StockItem = getStockItem($id, $databaseConnection);
     $StockItemImage = getStockItemImage($id, $databaseConnection);
@@ -40,6 +44,9 @@ foreach($cart as $id=>$amount){
 $discount = 0;
 $discountPercentage = 0;
 
+//Hier wordt gecontrolleerd met checkCoupon of de gegeven coupon in de Databse staat, als die 0 terug krijgt geeft de site een danger melding
+//Als de couponcode goed is wordt de waarde teruggeven hoeveel procent korting er verbonden is met de coupon. Vervolgens krijgt de bezoeker
+//een succesvolle melding en word de korting omgezet in een factor die nog betaald moet worden en opgeslagen in een globale variabele.
 if(isset($_POST['couponCode'])){
     $coupon = trim($_POST['couponCode']);
     (int)$result = checkCoupon($databaseConnection, $coupon);
@@ -71,6 +78,7 @@ if(isset($_POST['couponCode'])){
         <?php
         $leeg = false;
 
+        //melding printen als die niet 0 is, als er niks in de cart zit melding weergeven.
         if($deleteMelding != 0){
             print($deleteMelding);
         }else if(count($items) < 1){
@@ -90,6 +98,7 @@ if(isset($_POST['couponCode'])){
                         <div id="ProductFrame">
                             <a class="ListItem" href='view.php?id=<?php print($item['StockItemID']) ?>'>
                                 <?php
+                                //lijst printen met producten in cart
                                 if (isset($item['ImagePath11111'])) { ?>
                                     <div class="ImgFrame"
                                          style="background-image: url('<?php print "Public/StockItemIMG/" . $item['ImagePath']; ?>'); background-size: 230px; background-repeat: no-repeat; background-position: center;"></div>
@@ -108,6 +117,7 @@ if(isset($_POST['couponCode'])){
                             <p class="StockItemName"><?php print($item['StockItemName']) ?></p>
                             <p class="StockItemComments"><h6>€
                                 <?php
+                                //prijs printen
                                 print sprintf(" %0.2f", $item['SellPrice']);
                                 print(" Per stuk (incl. BTW)");
                                 ?></h6>
@@ -121,6 +131,7 @@ if(isset($_POST['couponCode'])){
                             <div id="StockItemFrameRight">
                                 <div class="CenterPriceLeftChild">
                                     <h1 class="StockItemPriceText"><?php
+                                        //als sellprice -1 is dan op niet leverbaar zetten
                                         if($item['SellPrice'] == -1){
                                             print("Niet leverbaar");
                                         }else{
@@ -133,6 +144,8 @@ if(isset($_POST['couponCode'])){
                         </div>
                         <?php
                     }
+
+                    //prijsberekeningen, een zonder en een met korting
 
                     foreach ($items as $item) {
                         $total = $total + $item['SellPrice'] * $amounts[$item['StockItemID']];
@@ -149,10 +162,12 @@ if(isset($_POST['couponCode'])){
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <h5 class="card-title">Totaal: <?php
+                                //als er geen discount is, gewoon alleen de prijs uitprinten
                                 if ($discount == 0) {
                                     if (!(count($items) < 1)) {
                                         print(sprintf("€%.2f", $total));
                                     }
+                                //als er korting is, de oude prijs, nieuwe prijs en stukje text dat de korting is toegepast weergeven
                                 } elseif ($discount > 0) {
                                     if (!(count($items) < 1)) {
                                         print(sprintf("€%.2f", $total));
@@ -191,6 +206,8 @@ if(isset($_POST['couponCode'])){
     </body>
     </html>
 <?php
+
+//Functie om de verkoopprijs te berekenen. simpel rekenen
 function berekenVerkoopPrijs($adviesPrijs, $btw) {
     $verkoopPrijs = $btw * $adviesPrijs / 100 + $adviesPrijs;
     if (($verkoopPrijs) < 0) {

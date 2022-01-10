@@ -2,7 +2,7 @@
 include __DIR__ . "/header.php";
 
 $melding = 0;
-
+// Indien de volgende gegevens zijn ingevoerd op de webpagina, worden de gegevens in de database geplaatst.
 if(isset($_POST['firstname'] )){
     $firstName = trim($_POST['firstname']);
     $lastName = trim($_POST['lastname']);
@@ -17,8 +17,11 @@ if(isset($_POST['firstname'] )){
         $melding = 1;
     }else $melding = 2;
 }
-?>
 
+// Onderstaande HTML betreft de webpagina voor het aanmaken van een account. Deze velden worden weergegeven in verschillende DIV'jes.
+// Zoals te zien is zijn alle velden verplicht.
+
+?>
 <div class="container container-sm">
     <br>
     <h1>Aanmaken Account</h1>

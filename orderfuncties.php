@@ -1,5 +1,6 @@
 <?php
 
+// Onderstaande functie maakt verbinding met de database en maakt het mogelijk om een order te plaatsen.
 function placeOrder($connection, $cart, $CustomerID){
     if($cart == null) return null;
     mysqli_query($connection, "START TRANSACTION;");
@@ -19,7 +20,7 @@ function placeOrder($connection, $cart, $CustomerID){
     return null;
 }
 
-
+// De volgende functie maakt verbinding met de database en creërt een order o.b.v. de CustomerID en OrderDate.
 function makeOrder($connection, $CustomerID){
     $date = date("Y-m-d");
     $statement = mysqli_prepare($connection, "INSERT INTO orders_gebruiker (CustomerID, OrderDate) 
@@ -32,6 +33,7 @@ function makeOrder($connection, $CustomerID){
     }else return null;
 }
 
+// Onderstaande functie maakt verbinding met de database en voert de Orderdetails in, namelijk OrderID, StockItemID, Quantity en PickedQuantity.
 function fillOrderLines($connection, $cart, $orderId){
     $error = 0;
     foreach ($cart as $item=>$quantity){
@@ -44,12 +46,12 @@ function fillOrderLines($connection, $cart, $orderId){
             $error = $error + 1;
         }
     }
-
     if($error == 0){
         return true;
     } else return false;
 }
 
+//
 function processStock($connection, $cart){
     $error = 0;
     foreach ($cart as $item=>$quantity){
@@ -63,6 +65,7 @@ function processStock($connection, $cart){
     } else return false;
 }
 
+// Onderstaande functie maakt verbinding met de database en haalt de huidige voorraad op.
 function getStock($connection, $itemId){
     $statement = mysqli_prepare($connection, "SELECT QuantityOnHand FROM stockitemholdings_gebruiker WHERE StockItemID = ?;");
     mysqli_stmt_bind_param($statement, 'i', $itemId);
@@ -75,6 +78,7 @@ function getStock($connection, $itemId){
     }
 }
 
+// De volgende functie maakt verbinding met de database en verminderd het aangegeven aantal artikelen.
 function lowerStock($connection, $itemId, $lowerBy) {
     $current = getStock($connection, $itemId);
     if($current == null || $current == 0){
@@ -88,6 +92,7 @@ function lowerStock($connection, $itemId, $lowerBy) {
     }
 }
 
+// Onderstaande functie haalt random producten op, deze producten worden weergegeven bij het bestellen.
 function getRandomProducts ($databaseConnection) {
     $Query = "SELECT StockItemID FROM stockitems_gebruiker ORDER BY RAND() LIMIT 3;";
     $Statement = mysqli_prepare($databaseConnection, $Query);

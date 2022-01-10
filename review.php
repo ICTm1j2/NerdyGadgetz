@@ -3,6 +3,8 @@ include __DIR__ . "/header.php";
 
 $melding = 0;
 
+
+// De volgende code beschikt over diverse meldingen die van toepassing kunnen zijn bij het plaatsen van een review.
 if(!isset($_SESSION['login'])){
     header("Location: inloggen.php");
     die("<div class='alert alert-danger'>Je moet eerst inloggen om dit te kunnen doen.</div>");
@@ -34,8 +36,9 @@ if(isset($_POST['reviewPosted'])){
     }else $melding = 2;
 }
 
-?>
 
+// Onderstaande code geeft een tekstbox weer waar een review ingevoerd kan worden, vervolgens kun je een aantal sterren selecteren en klikken op 'Plaats Review'.
+?>
     <div class="container container-sm">
         <div class="text-center">
 

@@ -26,6 +26,7 @@ if (isset($_GET["id"])) {
 
 <div id="CenteredContent">
     <?php
+//     Het volgende stuk code geeft een video weer op de webpagina, indien deze beschikbaar is.
     if ($StockItem != null) {
         ?>
         <?php
@@ -89,7 +90,6 @@ if (isset($_GET["id"])) {
                 <?php
             }
             ?>
-
             <h1 class="StockItemID">Artikelnummer: <?php print $StockItem["StockItemID"]; ?></h1>
             <h2 class="StockItemNameViewSize StockItemName">
                 <?php print $StockItem['StockItemName']; ?>
@@ -106,7 +106,7 @@ if (isset($_GET["id"])) {
             }
 
             $reviews = getReviews($StockItem['StockItemID'], $databaseConnection);
-
+            // Onderstaande code geeft de reviews weer op de productpagina.
             if($reviews != null){
                 while($row = mysqli_fetch_array($reviews)){
                     print("<br><strong>".$row['PreferredName'].":</strong> " . $row['Review'] . " (".$row['Stars']."/5)");
@@ -115,6 +115,7 @@ if (isset($_GET["id"])) {
             ?>
             <br>
             <?php
+            // Het volgende stuk code geeft een indicatie van de productvoorraad en laat de temperatuur zien bij gekoelde producten.
             if (filter_var($StockItem['QuantityOnHand'], FILTER_SANITIZE_NUMBER_INT) < 1000) {
                 print ("Er zijn nog minder dan 1000 stuks van dit product, wees er snel bij!");
             }
@@ -160,6 +161,7 @@ if (isset($_GET["id"])) {
         }
         ?>
 
+        <!--Onderstaande code geeft de beschrijving weer op de productpagina van het desbetreffende product.-->
         <div id="StockItemDescription">
             <h3>Artikel beschrijving</h3>
             <p><?php print $StockItem['SearchDetails']; ?></p><br>

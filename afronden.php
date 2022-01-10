@@ -6,6 +6,7 @@ include __DIR__ . "/header.php";
         <h1 class="text-center">Bestelling Afronden</h1>
         <div class="text-center">
             <?php
+            //Als de cart leeg is, krijgt de bezoeker/klant een melding
             if(!isset($_SESSION['cart'])){
                 die("<div class='container container-sm'><div class='text-center alert alert-danger'>Je moet eerst wat in je winkelmand plaatsen. <a href='index.php'>Verder Winkelen</a></div></div>");
             }
@@ -13,6 +14,7 @@ include __DIR__ . "/header.php";
                 die("<div class='container container-sm'><div class='text-center alert alert-danger'>Je moet eerst wat in je winkelmand plaatsen. <a href='index.php'>Verder Winkelen</a></div></div>");
             }
             $cart = $_SESSION['cart'];
+            //Als er wel iets in de cart zit, kan de klant kiezen hoe die verder wil gaam
             ?>
             <?php if(isset($_SESSION['login'])) { ?>
             <a role="button" class="btn btn-success text-light" href="afrekenen.php?type=account">Ga door als <?php print(getFirstname($databaseConnection, $_SESSION['login'])); ?></a>

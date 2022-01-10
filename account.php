@@ -1,10 +1,13 @@
 <?php
 include __DIR__ . "/header.php";
 
+//hier wordt de login sessie gestart
 if(!isset($_SESSION['login'])){
     header("Location: inloggen.php");
     die("<div class='alert alert-danger'>Er gaat iets mis. (Niet ingelogd)</div>");
 }
+
+//
 $page = "";
 if(!isset($_GET['page'])){
     $page = "none";
@@ -12,12 +15,14 @@ if(!isset($_GET['page'])){
     $page = $_GET['page'];
 }
 
+//hier kunnen de gegevens worden gewijzigd, bij succesvol of niet krijg je bijpassende melding en wordt het in de databse aangepast
 if(isset($_POST['changedetails'])){
     if(changeDetails($databaseConnection, $_SESSION['login'], $_POST['email'], $_POST['name'], $_POST['phonenumber'], $_POST['address'], $_POST['zipcode'])){
         print("<div class='alert alert-success'>Je gegevens zijn gewijzigd.</div>");
     }else{
         print("<div class='alert alert-danger'>Er is iets mis gegaan tijdens het wijzigen van je gegevens.</div>");
     }
+//hier kan het wachtwoord worden gewijzigd, bij succesvol of niet krijg je bijpassende melding en wordt het in de databse aangepast
 }else if (isset($_POST['changepassword'])){
     if(changePassword($databaseConnection, $_SESSION['login'], sha1(trim($_POST['oldPassword']) . "NERDY"), sha1(trim($_POST['newPassword']) . "NERDY"))){
         print("<div class='alert alert-success'>Je wachtwoord is gewijzigd.</div>");
@@ -49,7 +54,9 @@ if(isset($_POST['changedetails'])){
                 </div>
                 <div class="col-8">
                     <?php
+                    //switch case om te kijken op welke pagina de gebruiker zit
                     switch ($page){
+                        //in case order, worden alle order uit de database gehaald van het bijbehorden account
                         case "orders":
                             $orders = getOrdersFromAccount($databaseConnection, $_SESSION['login']);
                             ?>
@@ -57,6 +64,7 @@ if(isset($_POST['changedetails'])){
                                 <div class="card-body">
                                     <h5 class="card-title">Mijn Orders</h5>
                                     <p class="card-text"><?php
+                                        //mochten er nog geen orders zijn, wordt dat aangegeven, zowel wordt alles onder elkaar uitgeprint
                                         if($orders == null) {
                                             print("<div class='alert alert-danger'>Je hebt nog geen orders geplaatst.</div>");
                                         }else {
@@ -84,6 +92,7 @@ if(isset($_POST['changedetails'])){
                         <?php
                             break;
                         case "none":
+                        //in de case accountdetails wil de gebruiker zijn/haar gegevens inzien, deze worden dan dus uitgeprint
                         case "accountdetails":
                             $personalDetails = getAccountDetails($databaseConnection, $_SESSION['login']);
                             if($personalDetails == null){
@@ -129,6 +138,7 @@ if(isset($_POST['changedetails'])){
                         </div>
                     <?php
                             break;
+                        //mocht de gebruiker op verander wachtwoord klikken, wordt deze case geactivate
                         case "changepassword":
                             ?>
                             <div class="card">

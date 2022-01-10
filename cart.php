@@ -8,7 +8,6 @@ if(isset($_GET['action'])){
         if(deleteProduct($_GET['productid'])){
             $deleteMelding = "<div class='container container-sm'><div class='alert alert-danger'>Je hebt een product verwijderd uit je winkelmand.</div></div>";
         }
-
     }
 }
 

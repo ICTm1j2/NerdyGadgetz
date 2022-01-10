@@ -1,5 +1,6 @@
 <?php
 
+//hier wordt connectie gemaakt met de database en een person aangemaakt
 function createPerson($connection, $firstName, $lastName, $email, $password, $streetName, $houseNumber, $phoneNumber, $city, $zipCode) {
     $statement = mysqli_prepare($connection, "INSERT INTO people_gebruiker (FullName, PreferredName, SearchName, IsPermittedToLogon, LogonName, HashedPassword, PhoneNumber, EmailAddress, ValidFrom, ValidTo, LastEditedBy) 
                                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, now(), ?, ?);");
@@ -24,6 +25,7 @@ function createPerson($connection, $firstName, $lastName, $email, $password, $st
     return 0;
 }
 
+//hier wordt connectie gemaakt met de database en een customer aangemaakt
 function createCustomer($connection, $peopleId, $name, $date, $phoneNumber, $address, $zipCode, $validto){
     $statement = mysqli_prepare($connection, "INSERT INTO customers_gebruiker (CustomerName, PrimaryContactPersonID, AccountOpenedDate, PhoneNumber, DeliveryAddressLine1, DeliveryPostalCode, PostalAddressLine1, PostalPostalCode, ValidFrom, ValidTo) 
                                                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, now(), ?);");
@@ -32,6 +34,7 @@ function createCustomer($connection, $peopleId, $name, $date, $phoneNumber, $add
     return mysqli_stmt_affected_rows($statement);
 }
 
+//hier wordt connectie gemaakt met de database en een customer aangemaakt, en het bijbehorende UserID gereturned als dat mogelijk is
 function createCustomerGetId($connection, $name, $date, $phoneNumber, $address, $zipCode, $validto){
     $statement = mysqli_prepare($connection, "INSERT INTO customers_gebruiker (CustomerName, PrimaryContactPersonID, AccountOpenedDate, PhoneNumber, DeliveryAddressLine1, DeliveryPostalCode, PostalAddressLine1, PostalPostalCode, ValidFrom, ValidTo) 
                                                         VALUES (?, null, ?, ?, ?, ?, ?, ?, now(), ?);");
@@ -43,6 +46,7 @@ function createCustomerGetId($connection, $name, $date, $phoneNumber, $address, 
     }else return null;
 }
 
+//hier wordt connectie gemaakt met de database en gecontrolleerd of de gegeven username en password overeen komt wat er in de database staat
 function checkDetails($connection, $username, $password){
     $statement = mysqli_prepare($connection, "SELECT * FROM people_gebruiker WHERE LogonName = ? AND HashedPassword = ?");
     mysqli_stmt_bind_param($statement, 'ss', $username, $password);
@@ -50,6 +54,7 @@ function checkDetails($connection, $username, $password){
     return mysqli_stmt_get_result($statement);
 }
 
+//hier wordt connectie gemaakt met de database en de voornaam van een klant gegeven die bij de meegegeven klantID behoort
 function getFirstname($connection, $klantId){
     $statement = mysqli_prepare($connection, "SELECT PreferredName FROM people_gebruiker WHERE PersonID = ? LIMIT 0,1");
     mysqli_stmt_bind_param($statement, 'i', $klantId);
@@ -62,6 +67,7 @@ function getFirstname($connection, $klantId){
     }
 }
 
+//hier wordt connectie gemaakt met de database en de email van een klant gegeven die bij de meegegeven klantID behoort
 function getEmail($connection, $klantId){
     $statement = mysqli_prepare($connection, "SELECT LogonName FROM people_gebruiker WHERE PersonID = ? LIMIT 0,1");
     mysqli_stmt_bind_param($statement, 'i', $klantId);
@@ -74,6 +80,7 @@ function getEmail($connection, $klantId){
     }
 }
 
+//hier wordt connectie gemaakt met de database en gekeken hoeveel producten er in de cart zitten
 function getAantalInWinkelmand($cart){
     if(empty($cart)) return null;
     $totaal = 0;
@@ -85,6 +92,7 @@ function getAantalInWinkelmand($cart){
     return "<div class='badge badge-danger'>" . $totaal . "</div>";
 }
 
+//hier wordt connectie gemaakt met de database en de CustomerID gereturned na het meegeven van de PersonID
 function getCustomerIdFromAccount($connection, $PersonID){
     $statement = mysqli_prepare($connection, "SELECT CustomerID FROM Customers_gebruiker WHERE PrimaryContactPersonID = ?;");
     mysqli_stmt_bind_param($statement, 'i', $PersonID);
@@ -97,6 +105,8 @@ function getCustomerIdFromAccount($connection, $PersonID){
 
 }
 
+//hier wordt connectie gemaakt met de database en de CustomerName, Phonenumber, DeleveryAdressLine1 en
+// DeliveryPostalCode gereturned na het meegeven van de KlantID
 function getCustomerDetailsFromPerson($connection, $klantId){
     $statement = mysqli_prepare($connection, "SELECT CustomerName, PhoneNumber, DeliveryAddressLine1, DeliveryPostalCode FROM Customers_gebruiker WHERE PrimaryContactPersonID = ?;");
     mysqli_stmt_bind_param($statement, 'i', $klantId);
@@ -109,6 +119,7 @@ function getCustomerDetailsFromPerson($connection, $klantId){
     }
 }
 
+//hier wordt connectie gemaakt met de database en de gegevens van een klant weeergeven die bij de meegegeven KlantID hoort.
 function getAccountDetails($connection, $klantid){
     $statement = mysqli_prepare($connection, "SELECT P.PersonID, P.FullName, P.LogonName, P.PhoneNumber, P.ValidFrom, C.DeliveryAddressLine1, C.DeliveryPostalCode FROM People_gebruiker P JOIN Customers_gebruiker C ON P.PersonID = C.PrimaryContactPersonID
                 WHERE P.PersonID = ?");
@@ -123,6 +134,8 @@ function getAccountDetails($connection, $klantid){
 
 }
 
+//hier wordt connectie gemaakt met de database en een klant zijn gegevens aangepast, dit gebeurt dan in zowel
+//de customers_gebruiker tabel als in de People_gebruiker tabel
 function changeDetails($connection, $klantid, $email, $name, $phonenumber, $address, $zipcode){
     $statement = mysqli_prepare($connection, "UPDATE Customers_gebruiker SET CustomerName = ?, PhoneNumber = ?, DeliveryAddressLine1 = ?, DeliveryPostalCode = ?, PostalAddressLine1 = ?, PostalPostalCode = ?
                                                     WHERE PrimaryContactPersonID = ?;");
@@ -140,6 +153,9 @@ function changeDetails($connection, $klantid, $email, $name, $phonenumber, $addr
     return false;
 }
 
+//hier wordt connectie gemaakt met de database en eerst gecontrolleerd of het meegegeven oude wachtwoord overeenkomt met de bijbehorende
+//klantId, mocht dit fout zijn returned die false, mocht dit correct zijn gaat die verder met het updaten van het oude wachtwoord naar
+//het nieuwe wachtwoord, en wordt er een true gereturned.
 function changePassword($connection, $klantid, $oldpassword, $newpassword){
     $statement = mysqli_prepare($connection, "SELECT HashedPassword FROM People_gebruiker WHERE PersonID = ?");
     mysqli_stmt_bind_param($statement, 'i', $klantid);
@@ -160,6 +176,7 @@ function changePassword($connection, $klantid, $oldpassword, $newpassword){
     return false;
 }
 
+//hier wordt connectie gemaakt met de database en worden alle rows aan orders van een bijbehorende klantID gereturned als die er zijn
 function getOrdersFromAccount($connection, $klantid){
     $customer = getCustomerIdFromAccount($connection, $klantid);
     $statement = mysqli_prepare($connection, "SELECT OrderID, OrderDate FROM orders_gebruiker WHERE CustomerID = ? ORDER BY OrderID DESC;");

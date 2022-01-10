@@ -4,6 +4,7 @@ include __DIR__ . "/header.php";
 $melding = "";
 $type = "";
 
+//hier word gekeken wie er op de site zit, of dat een bezoeker of gebruiker is.
 if(isset($_GET['type'])){
     $type = $_GET['type'];
     if($type == "guest"){
@@ -31,6 +32,7 @@ if(isset($_GET['type'])){
         print($melding);
         die();
     }
+    //als het een gast is, krijgt deze een invulveld voor alle data.
     if($type == "guest"){ ?>
         <form class="row g-3" method="post" action="afrekenen.php" novalidate>
             <div class="col-md-6">
@@ -66,6 +68,7 @@ if(isset($_GET['type'])){
             </div>
         </form>
     <?php
+    //als de bestelling wordt afgerond door iemand met een account, worden de gegevens uit de database gehaald
     }else if ($type == "account"){
         $details = getCustomerDetailsFromPerson($databaseConnection, $_SESSION['login']);
         if($details == null){
@@ -81,6 +84,7 @@ if(isset($_GET['type'])){
         <a role="button" class="btn btn-success text-light" href="betalen.php?customer=<?php print(getCustomerIdFromAccount($databaseConnection, $_SESSION['login'])) ?>">Ga Door Naar Betalen</a>
         <a role="button" class="btn btn-primary text-light" href="index.php">Gegevens Wijzigen</a></div>
     <?php
+    //
     }else if ($type == "checkdetails"){
         $customer = createCustomerGetId($databaseConnection, 0, $_POST['name'], $date = date("Y-m-d"), $_POST['phonenumber'], $_POST['streetname'] . " " . $_POST['housenumber'], $_POST['zip'], "9999-12-31 23:59:59");
         if($customer == null){

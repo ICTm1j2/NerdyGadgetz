@@ -1,30 +1,32 @@
 <?php
 
 function getCart(){
-    if(isset($_SESSION['cart'])){               //controleren of winkelmandje (=cart) al bestaat
+    if(isset($_SESSION['cart'])){                   //controleren of winkelmandje (=cart) al bestaat
         $cart = $_SESSION['cart'];                  //zo ja:  ophalen
     } else{
         $cart = array();                            //zo nee: dan een nieuwe (nog lege) array
     }
-    return $cart;                               // resulterend winkelmandje terug naar aanroeper functie
+    return $cart;                                   // resulterend winkelmandje terug naar aanroeper functie
 }
 
 function saveCart($cart){
-    $_SESSION["cart"] = $cart;                  // werk de "gedeelde" $_SESSION["cart"] bij met de meegestuurde gegevens
+    $_SESSION["cart"] = $cart;                      // werk de "gedeelde" $_SESSION["cart"] bij met de meegestuurde gegevens
 }
 
 function addProductToCart($stockItemID){
-    $cart = getCart();                          // eerst de huidige cart ophalen
+    $cart = getCart();                              // eerst de huidige cart ophalen
 
-    if(array_key_exists($stockItemID, $cart)){  //controleren of $stockItemID(=key!) al in array staat
+    if(array_key_exists($stockItemID, $cart)){      //controleren of $stockItemID(=key!) al in array staat
         $cart[$stockItemID] += 1;                   //zo ja:  aantal met 1 verhogen
     }else{
         $cart[$stockItemID] = 1;                    //zo nee: key toevoegen en aantal op 1 zetten.
     }
 
-    saveCart($cart);                            // werk de "gedeelde" $_SESSION["cart"] bij met de bijgewerkte cart
+    saveCart($cart);                                // werk de "gedeelde" $_SESSION["cart"] bij met de bijgewerkte cart
 }
 
+//hier wordt met de getCart functie de hele cart opgehaald, vervolgens wordt gekeken of de meegegeven stockItemID in de cart zit
+//Als dit zo is wordt die uit de cart gedropped en is die dus uit de cart verwijderd
 function deleteProduct($stockItemID){
     $cart = getCart();
 
@@ -37,6 +39,9 @@ function deleteProduct($stockItemID){
     }
 }
 
+//hier wordt de cart gecontrolleerd voordat het aantal van een product wordt aangepast. Als de meegegeven quantity null is, dus een leeg
+//veld, wordt de waarde 3 meegegeven. Als de meegegeven quantity hoger is dan de max dat er in de database staan, returned die 4. Als het
+//goed is krijgt die de waarde 1 mee. Met deze waarder wordt later wat gedaan in cart.php
 function updateProduct($stockItemID, $quantity, $max){
     if(($quantity == null)) {
         return 3;
@@ -58,6 +63,8 @@ function updateProduct($stockItemID, $quantity, $max){
     }
 }
 
+//functie die wordt gebruikt in de functie updateProduct. Hier wordt gekeken wat het maximaal aantal
+//producten is dat de klant nog kan bestellen, hoeveel er nog is in de database.
 function getMaxAmount($connection, $stockitemid) {
     $Query = "    SELECT QuantityOnHand
                 FROM stockitemholdings_gebruiker 
